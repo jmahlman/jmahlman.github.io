@@ -33,3 +33,5 @@ Well, it just means that I’ll be writing here less that I did in the past. I�
 I am still hoping to dive into DEPNotify again (especially with all of the changes that are coming with macOS Catalina), and make sure my scripts still work with it, but I’ve just not had the time to do any of that. I’ve also not been able to provide the documentation that I promised, which really stinks. I’ve been asked to speak a few times about any updates to my process since November and frankly, I’ve not been keeping up on it because I just have so much else to do as noted above, so I’ve turned down a few speaking engagements.
 
 Such is life, I guess. Work comes before my blog.
+
+{% include disqus_comments.html %}
