@@ -5,4 +5,3 @@ _site
 vendor
 _drafts
 .DS_Store
-admin/config.yml
