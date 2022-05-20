@@ -15,6 +15,7 @@ tags:
     - life
     - mac
     - Work
+comments: true
 ---
 
 If you’re a visitor to this site you may notice that I have not had an update in sometime. I also haven’t really done any changes to my Git Page either, both stopped in November.
