@@ -22,7 +22,7 @@ title: Year of the Geek
 email: john.mahlman@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   'Good beer, crappy code'
-url: 'jmahlman.github.io' # the base hostname & protocol for your site, e.g. http://example.com
+url: 'https://jmahlman.github.io' # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: "/" # the subpath of your site, e.g. /blog
 twitter_username: floydiandroid
 github_username:  jmahlman
