@@ -20,7 +20,7 @@ tags:
 
 |**Update**|
 |:--:|
-|I have updated this process with a launch daemon! You can see the updated post [here](/2018/05/updating-our-depnotify-process/). This process still works, but the launch daemon will solve some timing issues that you may have.|
+|I have updated this process with a launch daemon! You can see the updated post [here](/dep/2018/05/10/updating-our-depnotify-process/). This process still works, but the launch daemon will solve some timing issues that you may have.|
 
 “[Imaging is dead!](https://www.google.com/search?q=imaging+is+dead&oq=imaging+is+dead)” is the new phrase for Mac Admins. Nearly every Mac blog I follow has a post about the death of imaging, but I’ve held off on it because I think enough has been said about it already. I will start this post off with my very condensed thoughts on the death of imaging:
 
