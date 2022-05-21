@@ -5,11 +5,7 @@ date: '2018-11-21T23:43:03-05:00'
 author: 'John Mahlman IV'
 excerpt: "This year I was given the opportunity to speak at the Jamf Nation User Conference in Minneapolis, Minnesota.\_ This was my first big speaking engagement and I was so happy when my presentation was accepted.\_ I chose to speak on my DEPNotify process; basically the process I wrote about/presented before but with the completed automated process."
 layout: post
-guid: '/?p=1008'
-permalink: /2018/11/junc-2018-presentation-video/
 categories:
-    - DEP
-    - jamf
     - Presentation
 tags:
     - apple

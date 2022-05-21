@@ -4,8 +4,6 @@ title: 'Choosing the Right Programs for a Lab'
 date: '2009-08-03T12:48:01-05:00'
 author: 'John Mahlman IV'
 layout: post
-guid: 'http://yearofthegeek.net/?p=226'
-permalink: /2009/08/choosing-the-right-programs-for-a-lab/
 dsq_thread_id:
     - '28237792'
 ngcp_type:

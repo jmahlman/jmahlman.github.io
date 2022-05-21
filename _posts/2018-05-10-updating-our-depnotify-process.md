@@ -5,15 +5,9 @@ date: '2018-05-10T14:54:48-05:00'
 author: 'John Mahlman IV'
 excerpt: "In my <a href=\"/2018/04/deploying-macs-with-depnotify/\">previous post</a> I discussed our process of using <a href=\"https://gitlab.com/Mactroll/DEPNotify\" target=\"_blank\" rel=\"noopener\">DEPNotify</a> to assign and deploy laptops.\_ After writing the post and sharing it, several people asked me \"what happens if the policy runs before the GUI is ready?\"\_ I found that the deployment policy ran and would just hang due to no user input because the DEPNotify window wouldn't show.\_ My simple, yet crude solution was to have our tech's manually create the admin account (which would then log in automatically) and just wait for the dock to launch.\_ This also proved to be problematic as the Dock process would start too quickly and the DEPNotify window would again fail to open.\_ I knew it was a matter of time until I switched over to a launch daemon...well....that time is now."
 layout: post
-guid: '/?p=940'
-permalink: /2018/05/updating-our-depnotify-process/
 image: /assets/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png
 categories:
     - DEP
-    - jamf
-    - Scripts
-    - Technology
-    - Work
 tags:
     - DEP
     - jamf

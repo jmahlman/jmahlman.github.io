@@ -5,11 +5,7 @@ date: '2018-06-22T10:53:04-05:00'
 author: 'John Mahlman IV'
 excerpt: "On June 21 the <a href=\"https://phillymacadmins.com/\" target=\"_blank\" rel=\"noopener\">Greater Philadelphia Mac Admins</a> held their monthly meet-up (also their 3 year anniversary!).\_ I decided I wanted to present my DEPNotify process to the group.\_ The event was recorded and live-streamed.\_ If you're interested in watching the recording, you can head over to <a href=\"https://youtu.be/Jk5Snii-nWA?t=32m40s\" target=\"_blank\" rel=\"noopener\">this</a> Youtube link..."
 layout: post
-guid: '/?p=962'
-permalink: /2018/06/watch-me-present-my-depnotify-process/
 categories:
-    - DEP
-    - jamf
     - Presentation
 tags:
     - apple

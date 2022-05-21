@@ -7,8 +7,6 @@ excerpt: "If you're a visitor to this site you may notice that I have not had an
 layout: post
 categories:
     - Life
-    - Uncategorized
-    - Work
 tags:
     - life
     - mac

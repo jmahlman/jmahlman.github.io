@@ -5,15 +5,10 @@ date: '2016-11-17T13:20:50-05:00'
 author: 'John Mahlman IV'
 excerpt: "Does anyone remember <a href=\"https://en.wikipedia.org/wiki/Xgrid\">Xgrid</a>? \_How about <a href=\"https://en.wikipedia.org/wiki/Apple_Qmaster\">Qmaster</a>? I do! \_If you don't, check out those links and come back. \_TL;DR: Apple made distributed rendering (relatively) easy to configure and Xgrid was particularly great because it was built into Mac OS. \_Apple was making headway for some easy\_distributed rendering for use with their pro software and hardware. \_Unfortunately, Apple hasn't been kind to their professional line; I believe Qmaster lives on in Compressor but most traces\_of Xgrid at least are all but gone. \_When I was working at (what was then) NYUPoly I managed a small Mac lab and set up a very basic Xgrid system with our 15 machines and it worked, one time.\r\n\r\nSo when we were asked if a distributed rendering system (or render farm) for Maya (and possibly others) was something that can be done here at UArts\_I thought \"Oh fun! \_I can spend countless hours on this again and have one person use it!\" \_To my surprise, I only spent a\_<em>few</em> hours looking into this and managed to get a proof of concept working with Autodesk Backburner 2017 and Maya 2017."
 layout: post
-guid: '/?p=774'
-permalink: /2016/11/setting-up-a-customized-backburner-render-farm-on-your-macs/
 dsq_thread_id:
     - '5314396143'
 image: /assets/uploads/2016/11/backburner-server-list-populated.png
 categories:
-    - Scripts
-    - Software
-    - Technology
     - Work
 tags:
     - autodesk

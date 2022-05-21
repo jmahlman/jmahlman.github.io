@@ -4,14 +4,9 @@ title: 'Upgrading from 10.4 Server to 10.5 Server'
 date: '2009-06-01T12:16:40-05:00'
 author: 'John Mahlman IV'
 layout: post
-guid: 'http://yearofthegeek.net/?p=200'
-permalink: /2009/06/upgrading-from-104-server-to-105-server/
 dsq_thread_id:
     - '28244200'
-ngcp_type:
-    - opinion
 categories:
-    - Software
     - Work
 tags:
     - leopard
