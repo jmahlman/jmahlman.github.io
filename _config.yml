@@ -32,6 +32,7 @@ plugins:
   - jekyll-gist
   - jekyll-twitter-plugin
   - jekyll-remote-theme
+  - jekyll-seo-tag
 
 # Build settings
 # theme: minima

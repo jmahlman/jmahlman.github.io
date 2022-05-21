@@ -20,6 +20,7 @@ group :jekyll_plugins do
   gem "jekyll-gist"
   gem "jekyll-twitter-plugin"
   gem "jekyll-remote-theme"
+  gem "jekyll-seo-tag"
 end
 
 gem liquid_reading_time
