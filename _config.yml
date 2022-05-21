@@ -47,6 +47,7 @@ plainwhite:
   portfolio_image: "assets/portfolio.png"
   dark_mode: true
   search: true
+  sitemap: true
   social_links:
     twitter: floydiandroid
     github: jmahlman
