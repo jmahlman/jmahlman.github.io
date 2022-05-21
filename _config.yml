@@ -27,9 +27,15 @@ baseurl: "/" # the subpath of your site, e.g. /blog
 twitter_username: floydiandroid
 github_username:  jmahlman
 
+plugins:
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-twitter-plugin
+  - jekyll-remote-theme
+
 # Build settings
 # theme: minima
-theme: plainwhite
+# theme: plainwhite
 remote_theme: samarsault/plainwhite-jekyll
 
 
@@ -50,12 +56,6 @@ plainwhite:
       url: "/about"
     - title: Contact
       url: "/contact"
-
-plugins:
-  - jekyll-feed
-  - jekyll-gist
-  - jekyll-twitter-plugin
-  - jekyll-remote-theme
 
 show_excerpts: true
 # Disqus Comments
