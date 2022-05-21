@@ -44,7 +44,7 @@ plainwhite:
   name: Year of the Geek
   tagline: Good beer, crappy code
   date_format: "%b %-d, %Y"
-  disqus_shortname: theyearofthegeek
+  disqus_shortname: yotg-git
   portfolio_image: "assets/portfolio.png"
   dark_mode: true
   search: true
