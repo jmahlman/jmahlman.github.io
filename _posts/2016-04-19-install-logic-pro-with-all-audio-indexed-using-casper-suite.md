@@ -9,7 +9,7 @@ guid: 'http://yearofthegeek.net/?p=682'
 permalink: /2016/04/install-logic-pro-with-all-audio-indexed-using-casper-suite/
 dsq_thread_id:
     - '4760475217'
-image: /wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM.png
+image: /assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM.png
 categories:
     - 'Casper Suite'
 tags:
@@ -50,13 +50,13 @@ You can get information on these folders and you’ll notice how large they are.
 
 To make the package, drag all of these folders into Composer and then build it with your preferred method (I prefer DMG’s).
 
-|[![Composer showing Logic/GarageBand Files](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM-1024x639.png?resize=648%2C404)](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM.png)|
+|[![Composer showing Logic/GarageBand Files](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM-1024x639.png?resize=648%2C404)](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM.png)|
 |:--:|
 |Composer showing Logic/GarageBand Files|
 
 The created package came out to be 49.14GB for Logic version 10.2.2 and GarageBand 10.1.1. Once you have the audio package, you’re almost done! The next part is grabbing the index.
 
-|[![Showing the indexing progress in Logic](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.26.55-PM-300x67.png?resize=300%2C67)](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.26.55-PM.png)|
+|[![Showing the indexing progress in Logic](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.26.55-PM-300x67.png?resize=300%2C67)](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.26.55-PM.png)|
 |:--:|
 |Click the tiny bar under the metronome shows background task progress.|
 
@@ -66,7 +66,7 @@ In order to get the index, load up Composer and grab a “New &amp; Modified Sna
 
 Now, you’re going to see that tons of folders were touched during this process. Thankfully, I’ve gone through them all for you and narrowed down what I believe is needed for the index to work.
 
-|[![Composer showing the files needed for Logic and GarageBand indexes.](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.42.53-PM.png?resize=648%2C647)](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.42.53-PM.png)|
+|[![Composer showing the files needed for Logic and GarageBand indexes.](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.42.53-PM.png?resize=648%2C647)](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.42.53-PM.png)|
 |:--:|
 |Composer showing the files needed for Logic and GarageBand indexes. Note the highlighted folder.|
 
@@ -74,7 +74,7 @@ Notice that you only need to worry about the items in the user home directory, a
 
 When making a configuration or policy be sure to have your installation order set properly. Apps install first (priority 10) then the audio content (priority 13), then index (priority 15).
 
-|[![Admin showing FUT and FEU active on the packages.](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.55.20-PM.png?resize=648%2C38)](/wp-content/uploads/2016/04/Screen-Shot-2016-04-19-at-3.55.20-PM.png)|
+|[![Admin showing FUT and FEU active on the packages.](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.55.20-PM.png?resize=648%2C38)](/assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.55.20-PM.png)|
 |:--:|
 |Note the order of installation and the FUT and FEU selection.|
 

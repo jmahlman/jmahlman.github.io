@@ -49,7 +49,7 @@ Pretty self explanatory, the script gets the hostname of the computer and drops 
 
 When you’re pushing out the package with Casper Suite just have the script run before your install.
 
-|[![What it looks like at first login.](/wp-content/uploads/2016/04/rename-anim-1024x624.gif?resize=648%2C395)](/wp-content/uploads/2016/04/rename-anim.gif)|
+|[![What it looks like at first login.](/assets/uploads/2016/04/rename-anim-1024x624.gif?resize=648%2C395)](/assets/uploads/2016/04/rename-anim.gif)|
 |:--:|
 |What it looks like at first login.|
 

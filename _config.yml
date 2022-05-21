@@ -28,18 +28,39 @@ twitter_username: floydiandroid
 github_username:  jmahlman
 
 # Build settings
-theme: minima
+# theme: minima
+theme: plainwhite
+
+plainwhite:
+  name: Year of the Geek
+  tagline: Good beer, crappy code
+  date_format: "%b %-d, %Y"
+  disqus_shortname: yotg-git
+  portfolio_image: "assets/portfolio.png"
+  dark_mode: true
+  search: true
+  social_links:
+    twitter: floydiandroid
+    github: jmahlman
+    linkedIn: in/john-mahlman-iv-58a88450 # format: locale/username
+  navigation:
+    - title: About
+      url: "/about"
+    - title: Contact
+      url: "/contact"
+
 plugins:
   - jekyll-feed
   - jekyll-gist
   - jekyll-twitter-plugin
+  - jekyll-remote-theme
 
 show_excerpts: true
 # Disqus Comments
-disqus:
-    # Leave shortname blank to disable comments site-wide.
-    # Disable comments for any post by adding `comments: false` to that post's YAML Front Matter.
-    shortname: yotg-git
+# disqus:
+#     # Leave shortname blank to disable comments site-wide.
+#     # Disable comments for any post by adding `comments: false` to that post's YAML Front Matter.
+#     shortname: yotg-git
 
 # Exclude from processing.
 # The following items will not be processed, by default.

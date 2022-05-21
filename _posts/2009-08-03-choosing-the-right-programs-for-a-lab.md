@@ -34,19 +34,19 @@ InDesign and Illustrator are programs I am not so sure about replacing, I’ve n
 
 Dreamweaver is for web-development. It’s more of a helper for most new developers. It’s gotten a lot better over the years, but it’s still nothing that cannot be replaced by good ol’ hand coding with [TextMate](http://macromates.com/) or [whatever](http://www.codingmonkeys.de/subethaedit/) [editor](http://www.barebones.com/) you [prefer](http://aquamacs.org/). These are all wonderful, some are free, some are not. However, for true web editing I have to give props to [Coda by Panic](https://www.panic.com/coda/). I’ve mentioned before that I love this program. I do. I really think this is probably one of the best code/web/css editing programs on the market, ever. It’s beautiful, and it’s functional. It’s also $99. Does this bother me? No. Each penny of that $99 is worth it. If you’re just doing web stuff, don’t go near Dreamweaver, get Coda, as a matter of fact, get multiple copies of Coda to give to friends. That’s how much I love it.
 
-|[![Look at this beautiful CSS editor! I can also edit the code of the CSS and ANY OTHER CODE WITH CODE HINTING!](/wp-content/uploads/2009/08/Picture-1-300x193.png?resize=300%2C193 "Coda CSS")](/wp-content/uploads/2009/08/Picture-1.png)|
+|[![Look at this beautiful CSS editor! I can also edit the code of the CSS and ANY OTHER CODE WITH CODE HINTING!](/assets/uploads/2009/08/Picture-1-300x193.png?resize=300%2C193 "Coda CSS")](/assets/uploads/2009/08/Picture-1.png)|
 |:--:|
 |Look at this beautiful CSS editor! I can also edit the code of the CSS and ANY OTHER CODE WITH CODE HINTING!|
 
 Now we come to 3D graphics. Our choice program in the lab is Autodesk Maya 2008 Unlimited. Maya is the “industry standard” for 3D graphics, right with 3D Studio Max; both of which are now owned by Autodesk…weird huh? Maya comes with so much stuff that it’s very hard to find a comparable program. Some difficulties come up with licensing (you need to be running a license server if you have a set number of licenses, and you need to make sre you get Unlimited or Complete. The difference is just what kind of fluids or fur you get, whatever. I like Maya to a certain extent. it’s powerful and fairly easy, but it’s licensing is annoying, and it costs a good amount for upkeep. We need to constantly upgrade if we want the bugs to go away (because lord knows you don’t want to keep fixing your software after the first service pack which we paid a few thousand dollars for in the first place) and if we want service for the license we bought, that’s also more money.
 
-|[![Maya's starting interface.](/wp-content/uploads/2009/08/Picture-2-300x181.png?resize=300%2C181 "Maya")](/wp-content/uploads/2009/08/Picture-2.png)|
+|[![Maya's starting interface.](/assets/uploads/2009/08/Picture-2-300x181.png?resize=300%2C181 "Maya")](/assets/uploads/2009/08/Picture-2.png)|
 |:--:|
 |Maya\\’s starting interface.|
 
 To replace Maya many people opt for [Blender](http://blender.org); Maya’s open-source cousin from the Dutch. Blender is completely free, and it does a lot of the things Maya does. It really is an excellent replacement for Maya; however, it’s got a steeper learning curve than Maya. While Maya may still be considered difficult to grasp anyway, Bender is like a nightmare to some 3D artists I’ve known. So if you can learn Blender (which by the way has [all documentation online free](http://www.blender.org/download/documentation/) as all good programs should) you will probably be very happy with the results.
 
-|[![A random screenshot from Blender 2.4 from Wikipedia.](/wp-content/uploads/2009/08/Blender3D_2.4.5-screen-300x178.jpg?resize=300%2C178 "Blender from Wiki")](/wp-content/uploads/2009/08/Blender3D_2.4.5-screen.jpg)|
+|[![A random screenshot from Blender 2.4 from Wikipedia.](/assets/uploads/2009/08/Blender3D_2.4.5-screen-300x178.jpg?resize=300%2C178 "Blender from Wiki")](/assets/uploads/2009/08/Blender3D_2.4.5-screen.jpg)|
 |:--:|
 |A random screenshot from Blender 2.4 from Wikipedia.|
 

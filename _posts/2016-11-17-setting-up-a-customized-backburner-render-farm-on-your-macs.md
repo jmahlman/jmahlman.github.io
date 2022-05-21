@@ -9,7 +9,7 @@ guid: '/?p=774'
 permalink: /2016/11/setting-up-a-customized-backburner-render-farm-on-your-macs/
 dsq_thread_id:
     - '5314396143'
-image: /wp-content/uploads/2016/11/backburner-server-list-populated.png
+image: /assets/uploads/2016/11/backburner-server-list-populated.png
 categories:
     - Scripts
     - Software
@@ -39,13 +39,13 @@ We immediately found a huge problem with Backburner, the documentation from Auto
 
 After installing the packages we navigated to *<http://localhost/Backburner>* on the system and we were given a web interface for managing the system.
 
-|[![The Backburner webUI after installation.](/wp-content/uploads/2016/11/Jobs.png?resize=648%2C421&ssl=1)](/wp-content/uploads/2016/11/Jobs.png?ssl=1)|
+|[![The Backburner webUI after installation.](/assets/uploads/2016/11/Jobs.png?resize=648%2C421&ssl=1)](/assets/uploads/2016/11/Jobs.png?ssl=1)|
 |:--:|
 |The Backburner webUI after installation.|
 
 Obviously there were no jobs but we also didn’t see any of the other systems we installed the packages on with the exception of the “Manager” dropdown at the top, that seemed to propagate automatically.
 
-|[![The list of available managers](/wp-content/uploads/2016/11/Server-List.png?resize=471%2C239&ssl=1)](/wp-content/uploads/2016/11/Server-List.png?ssl=1)|
+|[![The list of available managers](/assets/uploads/2016/11/Server-List.png?resize=471%2C239&ssl=1)](/assets/uploads/2016/11/Server-List.png?ssl=1)|
 |:--:|
 |The list of available managers|
 
@@ -70,13 +70,13 @@ Our next step was to connect multiple machines into a single server group on one
 
 Well, that is actually very useful! So I run the commands and lo-and-behold it works! The computer shows up in my server tab in the webUI and I can see details of the servers by double clicking them.
 
-|[![Our fully populated server list](/wp-content/uploads/2016/11/backburner-server-list-populated.png?resize=648%2C421&ssl=1)](/wp-content/uploads/2016/11/backburner-server-list-populated.png?ssl=1)|
+|[![Our fully populated server list](/assets/uploads/2016/11/backburner-server-list-populated.png?resize=648%2C421&ssl=1)](/assets/uploads/2016/11/backburner-server-list-populated.png?ssl=1)|
 |:--:|
 |Our fully populated server list|
 
 The next step was to make them work as one unit, this is where we create a new “Server Group” and add the machines to the group.
 
-|[![Adding servers to a group](/wp-content/uploads/2016/11/backburner-edit-server-group.png?resize=648%2C421&ssl=1)](/wp-content/uploads/2016/11/backburner-edit-server-group.png?ssl=1)|
+|[![Adding servers to a group](/assets/uploads/2016/11/backburner-edit-server-group.png?resize=648%2C421&ssl=1)](/assets/uploads/2016/11/backburner-edit-server-group.png?ssl=1)|
 |:--:|
 |Adding servers to a group|
 
@@ -94,7 +94,7 @@ Since I wanted to make a single package that installs Backburner, points each se
 
 {% gist 709a8eb90ae40f3a001701fb5695948e %}
 
-|[![Settings for creating my initial Backburner package in Packages](/wp-content/uploads/2016/11/backburner-packages-settings-1.png?resize=648%2C425&ssl=1)](/wp-content/uploads/2016/11/backburner-packages-settings-1.png?ssl=1)|
+|[![Settings for creating my initial Backburner package in Packages](/assets/uploads/2016/11/backburner-packages-settings-1.png?resize=648%2C425&ssl=1)](/assets/uploads/2016/11/backburner-packages-settings-1.png?ssl=1)|
 |:--:|
 |Settings for creating my initial Backburner package in Packages|
 
@@ -102,7 +102,7 @@ Note lines 14 and 15, look familiar? Also take note that the post-install script
 
 When you install Backburner on a machine, another service will be installed in addition to the Backburner server; the manager. This is something we did not want to happen on nodes, so I wanted to remove those from the Autodesk Backburner package using Composer.
 
-|[![We removed the files marked with red dots](/wp-content/uploads/2016/11/backburner-defaultPackage-marked.png?resize=648%2C516&ssl=1)](/wp-content/uploads/2016/11/backburner-defaultPackage-marked.png?ssl=1)|
+|[![We removed the files marked with red dots](/assets/uploads/2016/11/backburner-defaultPackage-marked.png?resize=648%2C516&ssl=1)](/assets/uploads/2016/11/backburner-defaultPackage-marked.png?ssl=1)|
 |:--:|
 |We removed the files marked with red dots|
 
@@ -126,7 +126,7 @@ I put that script in**/usr/discreet/backburner** and named it **delayBackburnerS
 
 We ran the reboot test again and the hanging boot went away. So that simple solution worked well and we decided to add the edited file and the delay script to the install package. So now our package looks like this:
 
-|[![Our Backburner install package in Composer](/wp-content/uploads/2016/11/backburner-customPackage.png?resize=648%2C514&ssl=1)](/wp-content/uploads/2016/11/backburner-customPackage.png?ssl=1)|
+|[![Our Backburner install package in Composer](/assets/uploads/2016/11/backburner-customPackage.png?resize=648%2C514&ssl=1)](/assets/uploads/2016/11/backburner-customPackage.png?ssl=1)|
 |:--:|
 |Our Backburner install package in Composer|
 

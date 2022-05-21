@@ -11,7 +11,7 @@ dsq_thread_id:
     - '6450786694'
 dsq_needs_sync:
     - '1'
-image: /wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png
+image: /assets/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png
 categories:
     - Guides
 tags:
@@ -26,7 +26,7 @@ tags:
 
 My post [Install Logic Pro with All Audio Indexed for All Users](/2016/04/install-logic-pro-with-all-audio-indexed-using-casper-suite/) has been the most clicked link on my blog from the last year. Granted, there are not many posts available but it always seems to be the one that I link to the most on Jamfnation and Slack.
 
-|[![Screenshot of post visits over last year](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-1.51.14-PM.png?resize=648%2C344&ssl=1)](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-1.51.14-PM.png?ssl=1)|
+|[![Screenshot of post visits over last year](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-1.51.14-PM.png?resize=648%2C344&ssl=1)](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-1.51.14-PM.png?ssl=1)|
 |:--:|
 |Definitely the most. The second one is the most of all-time, but also MUCH older and only has 300 or so more|
 
@@ -55,7 +55,7 @@ After seeing it actually work, I decided to give local mirror creation a shot. I
 
 A few things; the `--apps` flag just tells the script which apps you want to get loop for, in my case I want all three apps it can deploy. The `-d` flag tells the script which directory we’re copying to, this is just copying to my mounted SMB share. After running this command every package that is available is downloaded to the server in a mirrored folder structure. Also, if there’s ever an update to the loops, if you run the same command again it will only download the packages that have been added or updated.
 
-|[![loops dir screenshot](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png?resize=648%2C556&ssl=1)](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png?ssl=1)|
+|[![loops dir screenshot](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png?resize=648%2C556&ssl=1)](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png?ssl=1)|
 |:--:|
 |This is what the directory looks like in Finder|
 
@@ -84,7 +84,7 @@ Now that the appleloops script is ready for deployment, we need to get the index
 
 My snapshot ended up looking like this, please note the ~/Library/Keychains folder that is highlighted again, this is 100% necessary and it may not get captured automatically:
 
-|[![Screenshot of composer window showing files and folders expanded.](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-3.00.50-PM.png?resize=648%2C469&ssl=1)](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-3.00.50-PM.png?ssl=1)|
+|[![Screenshot of composer window showing files and folders expanded.](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-3.00.50-PM.png?resize=648%2C469&ssl=1)](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-3.00.50-PM.png?ssl=1)|
 |:--:|
 |Your snapshot should look something like this, many folders are still collapsed here.|
 
@@ -96,7 +96,7 @@ Depending on your hardware and your server bandwidth this process will take much
 
 I have also tested this with GarageBand only and the process is basically the same, you will capture less during the indexing:
 
-|[![Screenshot of Garageband Index only](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-3.10.44-PM.png?resize=648%2C469&ssl=1)](/wp-content/uploads/2018/01/Screen-Shot-2018-01-31-at-3.10.44-PM.png?ssl=1)|
+|[![Screenshot of Garageband Index only](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-3.10.44-PM.png?resize=648%2C469&ssl=1)](/assets/uploads/2018/01/Screen-Shot-2018-01-31-at-3.10.44-PM.png?ssl=1)|
 |:--:|
 |Again, note the Keychains folder|
 

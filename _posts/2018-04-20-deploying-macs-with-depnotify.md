@@ -7,7 +7,7 @@ excerpt: "\"<a href=\"https://www.google.com/search?q=imaging+is+dead&amp;oq=ima
 layout: post
 guid: '/?p=886'
 permalink: /2018/04/deploying-macs-with-depnotify/
-image: /wp-content/uploads/2018/04/Screen-Shot-2018-04-19-at-1.00.00-PM.png
+image: /assets/uploads/2018/04/Screen-Shot-2018-04-19-at-1.00.00-PM.png
 categories:
     - DEP
     - jamf
@@ -105,7 +105,7 @@ Now I know, it’s not secure at all but keep in mind that this process is curre
 
 So finally, I put everything together and added some other polish to the DEPNotify window (I really like that you can change the notes on the screen in the GUI on the fly to give the user more info) and had a working deployment process for our techs.
 
-|[![DEPNotify process condensed animation](/wp-content/uploads/2018/04/DEP-Animated.gif?resize=648%2C448&ssl=1)](/wp-content/uploads/2018/04/DEP-Animated.gif?ssl=1)|
+|[![DEPNotify process condensed animation](/assets/uploads/2018/04/DEP-Animated.gif?resize=648%2C448&ssl=1)](/assets/uploads/2018/04/DEP-Animated.gif?ssl=1)|
 |:--:|
 |DEPNotify process condensed|
 

@@ -25,7 +25,7 @@ On June 21 the [Greater Philadelphia Mac Admins](https://phillymacadmins.com/) h
 
 {% include youtubePlayer.html id=page.youtubeId %}
 
-You can find the presentation slides [here](/wp-content/uploads/2018/06/DEPNotify-Presentation.pdf).
+You can find the presentation slides [here](/assets/uploads/2018/06/DEPNotify-Presentation.pdf).
 
 If you’re in the area and an IT professional and you’re interested in Mac administration you should come out to our meet-ups! I’m a co-organizer so I am at most of the events. We typically hold them at the Walnut Street Apple store and we’ve been hosting social meet-ups at local restaurants/bars every other month.
 

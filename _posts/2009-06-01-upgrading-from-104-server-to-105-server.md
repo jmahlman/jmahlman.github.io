@@ -43,6 +43,6 @@ Upgrading from one system to another on a server s never an easy task, and Leopa
 
 So this entire process took me 4 fresh installs on a lab machine before I got the image the way I wanted it (about 4-5 days). It took 45 minutes to copy the image from the external hard drive to the server, and took about 3 days of tweaks to get everything running smoothly. The entire experience was pretty painless, but it kept me busy for the entire time. I will be re-imaging the secondary server again (it was upgraded to Leopard before the main server last summer) so that I will now have everything fresh and clean for the next semester. Here’s a nice shot of server admin with everything running nicely:-)
 
-[![picture-3](/wp-content/uploads/2009/06/picture-3.png?resize=478%2C363 "picture-3")](/wp-content/uploads/2009/06/picture-3.png)
+[![picture-3](/assets/uploads/2009/06/picture-3.png?resize=478%2C363 "picture-3")](/assets/uploads/2009/06/picture-3.png)
 
 If anyone reads this and needs help with a server setup and/or upgrade from Tiger to Leopard please feel free to comment or ask me any questions about it because I’ve seen every issue now with the server and I now know how to get around a lot of things with it.

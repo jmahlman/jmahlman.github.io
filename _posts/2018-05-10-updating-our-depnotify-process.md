@@ -7,7 +7,7 @@ excerpt: "In my <a href=\"/2018/04/deploying-macs-with-depnotify/\">previous pos
 layout: post
 guid: '/?p=940'
 permalink: /2018/05/updating-our-depnotify-process/
-image: /wp-content/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png
+image: /assets/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png
 categories:
     - DEP
     - jamf
@@ -43,7 +43,7 @@ If you choose to use the leaner script it will still work, just be sure whatever
 
 The next task was getting the program and scripts on the system at enrollment, since my last post was basically doing this in a different method it was simple to accomplish. I used Jamf Composer to build a package to drop DEPNotify, my logo file, my launch daemon, and my script, then launch the launch daemon when done.
 
-|[![Composer with all scripts and files placed.](/wp-content/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png?resize=648%2C469&ssl=1)](/wp-content/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png?ssl=1)|
+|[![Composer with all scripts and files placed.](/assets/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png?resize=648%2C469&ssl=1)](/assets/uploads/2018/05/Screen-Shot-2018-05-10-at-3.16.54-PM.png?ssl=1)|
 |:--:|
 |Composer with all scripts and files placed.|
 
