@@ -20,7 +20,7 @@ tags:
     - macosx
 ---
 
-## Check out the revisited method for accomplishing this task in [this post](/2018/01/revisiting-apple-logic-content-and-indexing/)! (That’s a link there..click it!)
+## Check out the revisited method for accomplishing this task in [this post](/guides/2018/01/31/revisiting-apple-logic-content-and-indexing/)! (That’s a link there..click it!)
 
 #### Please check the comments on this post for a very important update on the process below.
 
