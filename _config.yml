@@ -59,6 +59,7 @@ plainwhite:
     - title: Contact
       url: "/contact"
 
+permalink: pretty
 show_excerpts: true
 # Disqus Comments
 # disqus:

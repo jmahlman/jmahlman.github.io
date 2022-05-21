@@ -5,8 +5,6 @@ date: '2019-06-23T17:44:50-05:00'
 author: 'John Mahlman IV'
 excerpt: "If you're a visitor to this site you may notice that I have not had an update in sometime.\_ I also haven't really done any changes to my Git Page either, both stopped in November.\_\n\nCoincidence? Not really."
 layout: post
-guid: '/?p=1024'
-permalink: /2019/06/the-case-of-the-missing-mac-admin-me/
 categories:
     - Life
     - Uncategorized
