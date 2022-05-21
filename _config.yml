@@ -30,6 +30,8 @@ github_username:  jmahlman
 # Build settings
 # theme: minima
 theme: plainwhite
+remote_theme: samarsault/plainwhite-jekyll
+
 
 plainwhite:
   name: Year of the Geek
