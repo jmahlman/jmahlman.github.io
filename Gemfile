@@ -18,7 +18,7 @@ gem "plainwhite"
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-gist"
-  gem 'jekyll-twitter-plugin'
+  gem "jekyll-twitter-plugin"
   gem "jekyll-remote-theme"
 end
 
