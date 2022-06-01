@@ -40,57 +40,59 @@ After the download is complete we want to quit DEPNotify and re-launch it with s
 {% gist 5fec4fe400011ec34af6b91b4c7fd036 %}
 This worked but it wasn’t really robust for obvious reasons. I really didn’t like this idea from the start but I didn’t know of any good way to monitor the installation..until I discovered that the jamf binary can help out here. The jamf binary has an “install” flag which has a bunch of modifiers:
 
-> ```text
-> Usage: jamf install -package <filename> -path <path to file> -target <volume>
->  [-fut] [-feu] [-showProgress] 
->  -package  The filename of the package that will be installed.
->  -path  The path to the package. This does not include the name of the package.
->  -target  The drive that the package will be installed to.
->  -fut  The Fill User Templates option takes any user data and populates the files to the user templates so any new user created on the system will have these files.
->  -feu  Fill Existing Users option takes any user data and populates the files to every user on the computer that has a home directory.
->  -showProgress  Displays the progress of the HTTP download and the progress of the installation process.
+```text
+Usage: jamf install -package <filename> -path <path to file> -target <volume>
+ [-fut] [-feu] [-showProgress] 
+ -package  The filename of the package that will be installed.
+ -path  The path to the package. This does not include the name of the package.
+ -target  The drive that the package will be installed to.
+ -fut  The Fill User Templates option takes any user data and populates the files to the user templates so any new user created on the system will have these files.
+ -feu  Fill Existing Users option takes any user data and populates the files to every user on the computer that has a home directory.
+ -showProgress  Displays the progress of the HTTP download and the progress of the installation process.
+```
 
 I tried out the –showProgress modifier and to my surprise I was getting progress updates on installs. An example of what this outputs:
 
-> ```text
-> ~> Waiting Room # jamf install -package Microsoft-Visual\ Studio\ Code-1.66.2.pkg -path /Library/Application\ Support/JAMF/Waiting\ Room -showProgress
-> Installing Microsoft-Visual Studio Code-1.66.2.pkg...
-> <progress status="Installing Microsoft-Visual Studio Code-1.66.2.pkg...">
-> installer: Package name is Microsoft-Visual Studio Code-1.66.2
-> installer: Installing at base path /
-> installer:PHASE:Preparing for installation…
-> installer:PHASE:Preparing the disk…
-> installer:PHASE:Preparing Microsoft-Visual Studio Code-1.66.2…
-> installer:PHASE:Waiting for other installations to complete…
-> installer:PHASE:Configuring the installation…
-> installer:STATUS:
-> installer:%4.533645
-> installer:PHASE:Writing files…
-> installer:%7.514941
-> installer:PHASE:Writing files…
-> installer:%8.873586
-> installer:PHASE:Writing files…
-> installer:%17.025453
-> installer:PHASE:Writing files…
-> installer:%26.535965
-> installer:PHASE:Writing files…
-> installer:%44.198345
-> installer:PHASE:Writing files…
-> installer:%61.860724
-> installer:PHASE:Writing files…
-> installer:PHASE:Validating packages…
-> installer:%97.262500
-> installer:PHASE:Registering updated applications…
-> installer:%97.750000
-> installer:STATUS:
-> installer:PHASE:Finishing the Installation…
-> installer:STATUS:
-> installer:%100.000000
-> installer:PHASE:The software was successfully installed.
-> installer: The install was successful.
-> <exitCode>0</exitCode>
-> </progress>
-> Successfully installed Microsoft-Visual Studio Code-1.66.2.pkg.
+```text
+~> Waiting Room # jamf install -package Microsoft-Visual\ Studio\ Code-1.66.2.pkg -path /Library/Application\ Support/JAMF/Waiting\ Room -showProgress
+Installing Microsoft-Visual Studio Code-1.66.2.pkg...
+<progress status="Installing Microsoft-Visual Studio Code-1.66.2.pkg...">
+installer: Package name is Microsoft-Visual Studio Code-1.66.2
+installer: Installing at base path /
+installer:PHASE:Preparing for installation…
+installer:PHASE:Preparing the disk…
+installer:PHASE:Preparing Microsoft-Visual Studio Code-1.66.2…
+installer:PHASE:Waiting for other installations to complete…
+installer:PHASE:Configuring the installation…
+installer:STATUS:
+installer:%4.533645
+installer:PHASE:Writing files…
+installer:%7.514941
+installer:PHASE:Writing files…
+installer:%8.873586
+installer:PHASE:Writing files…
+installer:%17.025453
+installer:PHASE:Writing files…
+installer:%26.535965
+installer:PHASE:Writing files…
+installer:%44.198345
+installer:PHASE:Writing files…
+installer:%61.860724
+installer:PHASE:Writing files…
+installer:PHASE:Validating packages…
+installer:%97.262500
+installer:PHASE:Registering updated applications…
+installer:%97.750000
+installer:STATUS:
+installer:PHASE:Finishing the Installation…
+installer:STATUS:
+installer:%100.000000
+installer:PHASE:The software was successfully installed.
+installer: The install was successful.
+<exitCode>0</exitCode>
+</progress>
+Successfully installed Microsoft-Visual Studio Code-1.66.2.pkg.
+```
 
 I decided to use the same function but added an “install” argument; here is the whole function:
 
