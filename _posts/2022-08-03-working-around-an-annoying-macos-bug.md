@@ -2,7 +2,7 @@
 title: 'Working around an Annoying macOS Bug'
 date: '2022-08-03T13:00:04-05:00'
 author: 'John Mahlman IV'
-excerpt: "Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it' was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have somehting that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap."
+excerpt: "Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have somehting that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap."
 layout: post
 image: 
 categories:
@@ -19,7 +19,7 @@ This issue has been hitting us on upgrade from macOS 12.4 to 12.5 but it doesnt 
 
 ## A helper that shouldn't be needed
 
-The first step was to figure out how to get the Rosetta package to install offline. This was simple as [someone had already done it](https://www.alansiu.net/2021/03/24/copying-the-rosetta-2-installer-for-offline-installations/). TL;DR: Run `softwareupdate --install-rosetta --agree-to-license` to install Rosetta 2. Then, run `grep "RosettaUpdateAuto.pkg" /var/log/install.log` to find where the installer downloaded to and grab thr pkg. Once I had the package I packaged it up so I can drop it on a machine in a location I knew about and that it wouldn't remove it. Now that I have the package, I waned to have the machine install it when it boots and finds Rosetta missing. This is where I decided to make a launch daemon to run a script. 
+The first step was to figure out how to get the Rosetta package to install offline. This was simple as [someone had already done it](https://www.alansiu.net/2021/03/24/copying-the-rosetta-2-installer-for-offline-installations/). TL;DR: Run `softwareupdate --install-rosetta --agree-to-license` to install Rosetta 2. Then, run `grep "RosettaUpdateAuto.pkg" /var/log/install.log` to find where the installer downloaded to and grab thr pkg. Once I had the package I packaged it up so I can drop it on a machine in a location I knew about and that it wouldn't remove it. Now that I have the package, I waned to have the machine install it when it boots and finds Rosetta missing. This is where I decided to make a launch daemon to run a script.
 
 ### Launch Daemon
 
