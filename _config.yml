@@ -39,7 +39,7 @@ plainwhite:
     - title: About
       url: "/about"
     - title: Feed
-      url: "feed.xml"
+      url: "/feed.xml"
     - title: Contact
       url: "/contact"
 
