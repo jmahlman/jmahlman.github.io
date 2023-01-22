@@ -35,6 +35,9 @@ plainwhite:
     twitter: floydiandroid
     github: jmahlman
     linkedIn: in/john-mahlman-iv-58a88450 # format: locale/username
+    mastodon:
+     - username: jmahlman
+       instance: mstdn.social
   navigation:
     - title: About
       url: "/about"
