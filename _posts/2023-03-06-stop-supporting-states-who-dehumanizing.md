@@ -43,13 +43,19 @@ Jamf, take a note. And don’t use the excuse that “this was planned *before* 
 
 I guess I shouldn’t be surprised, you also had JNUC 2022 on Rosh Hashana. I get it, it’s really hard to predict when the Jewish high holiday is. It’s not like I can look up the dates for Rosh Hashana for [many many years in the future]( https://www.hebcal.com/holidays/rosh-hashana-2500). But I digress.
 
+I made the very easy decision to skip JNUC 2023 when it was announced **last year** that it would be in Austin, and I made my reason very clear to Jamf and to others in my field. I will gladly take my dollars to [another conference]( https://macadmins.psu.edu) that is held in a state that doesn’t pass anti-abortion and anti-LGBTQIA+ laws. I will gladly spend my money on an organization that doesn’t support states that pass harmful legislation that targets marginalized communities.
+
 ## So, what can **you** do?
 
 I hope you're still here because if you are that means that you either like my writing (oh boy) or more importantly, you care. What can you do to do help this situation?
 
-There’s an extremely simple answer: don’t attend conferences in states that make dehumanizing laws! That’s it! It’s not hard! 
+There’s an extremely simple answer: don’t attend conferences in states that make dehumanizing laws! That’s it! It’s not hard! Instead, donate directly to organizations that are actively helping these communities. There are good people in these states, and I can almost guarantee that there are more good than bad there. These people are fighting the good fight and need help. So if you can spare anything, check out some of these links for donations:
 
-I made the very easy decision to skip JNUC 2023 when it was announced **last year** that it would be in Austin, and I made my reason very clear to Jamf and to others in my field. I will gladly take my dollars to [another conference]( https://macadmins.psu.edu) that is held in a state that doesn’t pass anti-abortion and anti-LGBTQIA+ laws. I will gladly spend my money on an organization that doesn’t support states that pass harmful legislation that targets marginalized communities.
+- [Equality Texas](http://www.equalitytexas.org/take-action/donate/give/): Equality Texas works to secure full equality for lesbian, gay, bisexual, transgender, and queer Texans through political action, education, community organizing, and collaboration.
+- [Transgender Education Network of Texas](https://www.transtexas.org): TENT is an organization dedicated to furthering gender-diverse equality in  Texas. We work to accomplish this through education and networking in both public and private forums. Through our efforts, we strive to halt discrimination through social, legislative, and corporate education.
+- [Campaign for Southern Equality](https://southernequality.org): At the Campaign for Southern Equality, we’re working to build a South where LGBTQ people are equal in every sphere of life.
+- [Planned Parenthood](https://www.plannedparenthood.org/get-involved/other-ways-give)
+- [ACLU](https://www.aclu.org)
 
 ## Notes
 
