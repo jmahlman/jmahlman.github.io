@@ -7,7 +7,7 @@ url: 'https://jmahlman.github.io' # the base hostname & protocol for your site, 
 twitter_username: floydiandroid
 github_username:  jmahlman
 
-google_analytics: UA-5742240-2
+google_analytics: G-LW7DB7Q3EV
 
 plugins:
   - jekyll-feed
