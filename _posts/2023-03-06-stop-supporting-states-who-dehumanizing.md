@@ -59,7 +59,7 @@ There’s an extremely simple answer: don’t attend conferences in states that 
 
 ## Notes
 
-I have disabled comments on this post because frankly, this isn't something that should be up for debate. I also don't feel like dealing with the Christian extremists or Republicans trying to justify the choices these states made. If you like this post, please share it far and wide. 
+I have disabled comments on this post because frankly, this isn't something that should be up for debate. I also don't feel like dealing with the Christian extremists or Republicans trying to justify the choices these states made. If you like this post, please share it far and wide.
 
 If you don't like this post or it makes you mad, **good**.
 
