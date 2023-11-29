@@ -20,7 +20,7 @@ tags:
     - macosx
 ---
 
-> Check out the revisited method for accomplishing this task in [this post](/guides/2018/01/31/revisiting-apple-logic-content-and-indexing/)! (That’s a link there..click it!)
+> Check out the revisited method for accomplishing this task in [this post](/posts/revisiting-apple-logic-content-and-indexing/)! (That’s a link there..click it!)
 {: .prompt-info }
 
 One of the most annoying tasks I was given when I started working at UArts was to package and install Apple Logic Pro X with *all* of the audio add-ons as well as indexing for all users. This took a lot of trial and error, but I finally managed to get it to work and I want to share how I was able to accomplish it especially since I’ve seen many people in the MacAdmins.org slack channel and JAMFNation ask about it.
