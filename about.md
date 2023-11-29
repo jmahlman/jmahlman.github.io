@@ -1,8 +1,5 @@
 ---
-id: 2
 title: About
-date: '2008-09-11T11:44:15-05:00'
-author: 'John Mahlman IV'
 layout: page
 ---
 

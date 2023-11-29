@@ -23,13 +23,13 @@ In my [previous post](/dep/2018/04/20/deploying-macs-with-depnotify/) I discusse
 
 At first I just wanted a simple launch daemon that would call our enrollment script (the one I used previously), this launch daemon would run every 10 seconds until conditions were met. With a little help from slack I created my launch daemon.
 
-{% gist 301015d52fbfb9d95e59683a4f220b86 %}
+https://gist.github.com/301015d52fbfb9d95e59683a4f220b8
 
 The checks I added were to be sure that Finder and the Dock were both running, that the user was not \_mbsetupuser (the built-in setup account) and that the “setupDone” BOM receipt I am creating afterward is not there, if those conditions are met, the launch daemon finally runs. If the process was successful, the BOM receipt drops in and will not allow it to run again, it then removes the launch daemon. Please note that I’m not unloading the launch daemon, I ran into some trouble with trying to unload it so I just went with removing it and using the BOM file to stop it from launching again if the machine isn’t rebooted after deployment (we always reboot, so it goes away anyway).
 
 Now, at this point in my testing I was pretty satisfied but after some thought I decided that I wanted my launch daemon to do all of the heavy lifting; instead of having an enrollment policy install a script which calls another policy which calls more policies and scripts I decided to take out the middleman. Enrollment policy installs script which does everything else (runs policies and scripts). My final provisioning script ended up like this:
 
-{% gist 225fc5e3793e00d5434a17adc451872c %}
+https://gist.github.com/225fc5e3793e00d5434a17adc451872
 
 If you choose to use the leaner script it will still work, just be sure whatever policy you call sets up DEPNotify.
 
@@ -43,7 +43,7 @@ The next task was getting the program and scripts on the system at enrollment, s
 
 Make sure all of your file owners and groups are correct (everything is basically root:wheel) and be sure the permissions are correct (644 seems to work fine). And finally, the postinstall script for that package.
 
-{% gist 71b1ed9986e8503c5938919fffca6399 %}
+https://gist.github.com/71b1ed9986e8503c5938919fffca639
 
 While lines 18-32 are the only ones needed I really like to have the rest. They temporarily change some settings so that if the person setting up the machine (in our case, the techs) decide to let the laptop sit for a while before deploying or if they close the lid/shutdown updates don’t try to run.
 

@@ -23,25 +23,25 @@ First, you need to get your VM set up properly. Make sure your VM had at least t
 
 Once you have it all ready, you have to drop some scripts into ‘C:\\Users\\Public\\’. The first script is a PowerShell script:
 
-{% gist 68127c295010a8d1b514c1ca34231e02 %}
+https://gist.github.com/68127c295010a8d1b514c1ca34231e0
 
 This script takes the name from a file which we will create on the host machine and rename the machine to **vm-*machostname***. This PowerShell script gets called by a simple batch file which is also placed in ‘C:\\Users\\Public\\’:
 
-{% gist 7ae85a6f5cd0537e18faf5024ac7dd43 %}
+https://gist.github.com/7ae85a6f5cd0537e18faf5024ac7dd4
 
 Finally, you have to place the auto-login batch file in ‘C:\\Users\\Public’:
 
-{% gist 62da766888e605246d50146c4a24dc7c %}
+https://gist.github.com/62da766888e605246d50146c4a24dc7
 
 Now that you have the scripts in place, we want to run them on the next boot but only one time. Thankfully we have our handy **RunOnce** registry key. So, I just made a quick *.reg* file to add the batch file to the **RunOnce** key:
 
-{% gist 9ab777236ec12c60c1473019178cafe2 %}
+https://gist.github.com/9ab777236ec12c60c1473019178cafe
 
 So, when you’re ready to package your VM, just run the reg file and shutdown your VM. Make sure you don’t boot this VM again because the next time it boots you will see that it runs the batch script which calls our PowerShell script which will set the computer name, set the standard user to automatically login then reboot the system.
 
 Now the fun part, getting it to happen for the end-user! Package your VM and Parallels (or whichever program you’re using) and put it on your distribution server along with this bash script:
 
-{% gist f4b34c0e3447387c12676e9bfe7bdeca %}
+https://gist.github.com/f4b34c0e3447387c12676e9bfe7bdec
 
 Pretty self explanatory, the script gets the hostname of the computer and drops it into ‘/Users/Shared/hostname’. Note that this script does truncate your hostame if it’s too long for a NetBIOS name; since “vm-” takes 3 chars away your name would be shortened to 12 characters. This file will be read by the Windows scripts and this is how your VM gets the host computer name.
 

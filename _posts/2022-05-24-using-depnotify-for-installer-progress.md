@@ -32,12 +32,12 @@ The idea is simple; when a user wants to install Xcode, I want DEPNotify to open
 
 I started with the download portion since I knew how to do that already; I decided to borrow some inspiration from the erase-install script and make some functions to handle setting up DEPNofity for various tasks.
 
-{% gist 991edd0e5e8e4d85b96c51cd119c3042 %}
+https://gist.github.com/991edd0e5e8e4d85b96c51cd119c3042 %}
 Jamf downloads files into /Library/Application Support/JAMF/Downloads when it runs a policy, so all we had to do was calculate the current download from the package size (also passed as a variable). Using this we can update the progress bar in DEPNotify and accurately show the user how far along their giant download is. The function also checks for the file in /Library/Application Support/JAMF/Waiting Room because jamf moves from downloads to the waiting room after it’s fully downloaded when caching, more on that in the section on setting up your jamf policy.
 
 After the download is complete we want to quit DEPNotify and re-launch it with some updated UI elements for the installation. This part seemed simple but I didn’t know how to monitor installation process since the packages didn’t output any percentages. I first was trying to use a timer to “estimate” the installer; basically pass a variable of “how many seconds *should* this take to install” and update the progress bar using that. I wrote a manual install function:
 
-{% gist 5fec4fe400011ec34af6b91b4c7fd036 %}
+https://gist.github.com/5fec4fe400011ec34af6b91b4c7fd036 %}
 This worked but it wasn’t really robust for obvious reasons. I really didn’t like this idea from the start but I didn’t know of any good way to monitor the installation..until I discovered that the jamf binary can help out here. The jamf binary has an “install” flag which has a bunch of modifiers:
 
 ```text
@@ -96,12 +96,12 @@ Successfully installed Microsoft-Visual Studio Code-1.66.2.pkg.
 
 I decided to use the same function but added an “install” argument; here is the whole function:
 
-{% gist e7b9130dc2a911c14f99f26aaee014fc %}
+https://gist.github.com/e7b9130dc2a911c14f99f26aaee014fc %}
 Yep, I am using the jamf binary to do the install, not the installer. This is so I can use the –showProgress flag. <u>Update</u>: someone pointed out that installer has the -verbose flag which provides the same info as the jamf binary. For some reason I forgot about this! I’ll probably expand on the script to use built in tools instead.
 
 With these functions I can pass variables into the script and have it do what I want. I tried it out with calling a policy to do the entire download and install (just a basic install package in jamf). The process would work but if you stopped it for any reason during the install, jamf would re-download the package every time (interrupting during the download was fine since it can resume). I really didn’t want that, I’m trying to give users the ability to stop the download or install when they want and restart it again if desired (without having to download the entire 16GB again). I also don’t want to keep the download in the jamf downloads folder because if it’s there I don’t really know about it. I decided to try a caching policy; this will download the file to the downloads folder and them move it to the jamf waiting room (it also adds an XML file with some info). The good thing about this, we can pre-cache the download if we want, jamf will know about it, and we can act on it via jamf Pro if we so desire. So the function will watch the download folder and if it can’t find it there will then check the waiting room for the download to see if it’s complete and then continue on. Moreover, if the download is already in the waiting room and complete (the size matches) then we can even skip the entire download portion and go right to installing it! So my main portion of the script (the part that actually does work) is very simple:
 
-{% gist 0ddb4f5097f4978f355f8e457f3459ce %}
+https://gist.github.com/0ddb4f5097f4978f355f8e457f3459ce %}
 
 ### Putting it together
 

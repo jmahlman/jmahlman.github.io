@@ -56,7 +56,7 @@ The application then reacts to `Command:` and `Status:` lines written to the con
 
 So you `echo "Command: some command: something else"` into (`>>`) the log file and it reads it and updates the GUI. Very simple! I started with a very basic script just to test functionality and see how it works.
 
-{% gist 0751c69b07eaad9061172abb32c20b5a %}
+https://gist.github.com/0751c69b07eaad9061172abb32c20b5
 
 That script was set to run with the trigger “Enrollment Complete” in my jamf server, and it was scoped to a smart group that holds all machines with “Enrollment Method: PreStage enrollment &lt;name&gt;.”
 
@@ -64,7 +64,7 @@ I booted a computer that went through internet recovery and went through the set
 
 While looking for assistance in the #depnotify channel on the [MacAdmins slack](https://macadmins.slack.com/) a user named @fgd (contact info below) mentioned that he was working on a [forked build](https://slack-files.com/T04QVKUQG-FAE6G2T55-d128fcfe22) of DEPNotify that would allow for user input. (**Update: It’s now added into DEPNotify as of 1.0.4**) The new build would look for a pref file (`menu.nomad.DEPNotify`) on the system and gather information from that and when DEPNotify saw `Command: ContinueButtonRegister: <buttonName>` in it’s control file it would show a user input dropdown. This dropdown can be customized a number of ways in the prefs file and when the user is done entering the information and continues the process a plist file with the information would be dropped in a location specified in the prefs file. So I began testing with some assistance from users in the #depnotify channel, my script started to grow; note that we’re editing the prefs file for the current user with the defaults write commands.
 
-{% gist a6bb24378019b8a2a75553b06d7d7099 %}
+https://gist.github.com/a6bb24378019b8a2a75553b06d7d709
 
 You can see lines 33-35 are calling the user input dropdown but you see the question, “Now what?” We have the plist, but we’re not doing anything with it. There was also another problem I ran into with this part, since DEPNotify just reads from a stream and the user input dropdown is just a command getting sent in, it doesn’t know that it needs to wait for user input to continue. This means that the next command, `echo "Command: Quit: Done!" >> $DNLOG`, just goes into the command file thus causing DEPNotify to quit without getting input. I tried moving the assignment line up to the beginning, which worked better because the machine was doing everything and had enough time for me to enter some info…but if I didn’t enter anything and let it sit, it would just quit. So I just added a loop to check for the plist file to be created.
 
@@ -83,7 +83,7 @@ Fairly inelegant, but it gets the job done. Now I drop that in wherever I want t
 
 Next was figuring out how to get that information back into the jamf server. The plist file we have looks like this:
 
-{% gist 4a2b8a5779d092168dd00a7a66537f86 %}
+https://gist.github.com/4a2b8a5779d092168dd00a7a66537f8
 
 Using the jamf API we can easily drop these into the server by pulling the info we care about from this plist. I’m just linking to my full script since it’s fairly self explanatory for anyone who will need it: [git script](https://github.com/jmahlman/Mac-Admin-Scripts/blob/master/UArts%20Scripts%20(Archived)/DEP%20Scripts/DEP-DEPNotify-assignAndRename.sh). We’re just using plistbuddy to scrape the information from the plist file into some variables and then pushing them out to the API. This script will update the username field in the jamf server, fill in the asset tag information and rename the machine locally using our naming convention.
 

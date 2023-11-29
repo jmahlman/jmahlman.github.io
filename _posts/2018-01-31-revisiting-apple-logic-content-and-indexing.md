@@ -72,7 +72,7 @@ I already had the appleloops script package ready, now I just needed it to get o
 
 I then wrote a quick script that would do the work of checking for the script and installing if needed:
 
-{% gist b45cab1a5514ed33ea6e5556b23026e2 %}
+https://gist.github.com/b45cab1a5514ed33ea6e5556b23026e
 
 What the script also allows for is customization of what loops to install. The `$4` parameter allows me to specify if I want the mandatory packages, the optional packages, or both by adding -m, -o, or -m -o to my script parameters in jamf.
 

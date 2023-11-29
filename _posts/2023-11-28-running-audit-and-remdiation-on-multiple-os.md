@@ -15,14 +15,6 @@ tags:
     - script
 ---
 
-## In this post
-{:.no_toc}
-
-- TOC
-{:toc}
-
----
-
 Sometime last year, I started working with the gang that created the [macOS Security Compliance project](https://github.com/usnistgov/macos_security). First, if you're not familiar with the project, head to the link above but I highly recommend [Apple's excellent training](https://it-training.apple.com/tutorials/deployment/sec005) page that covers how to use the project. If you manage Macs at scale and have a need to secure them to specific standards (or want to start doing that) this is **the** project you need to know and learn. This blog will not be covering _how_ to use the mSCP, what I want to share is how to implement your mSCP audit and remediation using Jamf when you have multiple operations systems in your environment as you should not be running the same script for all versions.
 
 ## Getting Started
@@ -129,8 +121,8 @@ Once you have your smart groups setup, you can now create your policies!
 
 The way I have my policies set up is one policy for each operating system for auditing and one policy for each operating system for remediation. I also have one trigger policy for remediation. This allows me to ensure that systems are only running the scripts that are for the current operating system version.
 
-> |**Additional Info**: In the past, this wasn't super important as compliance settings didn't change _too_ much between OS versions, and any items that were not applicable on the OS would just fail. With macOS Sonoma, [`auditd` is off by default](https://boberito.medium.com/auditd-the-logs-we-need-not-the-logs-we-deserve-cf1d8c83d15d) and if you run a Ventura baseline script against Sonoma, you break the OS and will have a bad day. So please, don't do it.|
-
+> **Note**: In the past, this wasn't super important as compliance settings didn't change _too_ much between OS versions, and any items that were not applicable on the OS would just fail. With macOS Sonoma, [`auditd` is off by default](https://boberito.medium.com/auditd-the-logs-we-need-not-the-logs-we-deserve-cf1d8c83d15d) and if you run a Ventura baseline script against Sonoma, you break the OS and will have a bad day. So please, don't do it.
+{: .prompt-tip }
 
 ### Auditing
 

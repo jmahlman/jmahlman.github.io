@@ -81,13 +81,13 @@ Once the servers are in a group you’re basically ready to send jobs to your re
 
 I’m not going to go into how to set your Maya project up for proper rendering (that’s the designer/artists job) but it must be set up properly. However, even if your project is set up properly, every computer needs to have access to the project files and the only way to do this is to use a shared folder that every computer can access, and the share needs to be readily accessible on the systems, Maya will not mount the shares for you. You can accomplish this is a number of ways of course but we wanted everything to be done with a single package and have the share always available. We also didn’t want to advertise the share to all users so we decided to use auto\_master to mount a public share:
 
-{% gist 4261c3c0af2a9713802f8f7a469c4ff2 %}
+https://gist.github.com/4261c3c0af2a9713802f8f7a469c4ff
 
 What I’m doing is creating a directory in my root folder (I’m just using the server name) and mounting the share **at startup** to that folder. This allows us to allow rendering without having to log in to a system and also hides the share from the desktop easily enough.
 
 Since I wanted to make a single package that installs Backburner, points each server to a single manager, and mounts the share I used [Packages](http://s.sudre.free.fr/Software/Packages/about.html) to bundle the Backburner package from Autodesk and my full script:
 
-{% gist 709a8eb90ae40f3a001701fb5695948e %}
+https://gist.github.com/709a8eb90ae40f3a001701fb5695948
 
 |[![Settings for creating my initial Backburner package in Packages](/assets/uploads/2016/11/backburner-packages-settings-1.png?resize=648%2C425&ssl=1)](/assets/uploads/2016/11/backburner-packages-settings-1.png?ssl=1)|
 |:--:|
@@ -109,15 +109,15 @@ The first thing we wanted to test was what happens if a machine is rebooted or s
 
 In order to stop this from happening (and hanging any systems that get rebooted when rendering) I had to delay the startup of Backburner.
 
-{% gist beb8c05b1142e078f0083815ce27b057 %}
+https://gist.github.com/beb8c05b1142e078f0083815ce27b05
 
 That there is the launch daemon plist that gets installed with Backburner. I wanted to add a delayed start in there so I just added a middle-man:
 
-{% gist 7c8e5621af2a2c686baa18182c5b0bc1 %}
+https://gist.github.com/7c8e5621af2a2c686baa18182c5b0bc
 
 I put that script in**/usr/discreet/backburner** and named it **delayBackburnerServer**. It is called by the launch daemon instead of **/usr/discreet/backburner/backburnerServer**. So now my com.autodesk.backburner\_server.plist looks like this:
 
-{% gist 9edaf51a3fb7e86b97152343201b44f8 %}
+https://gist.github.com/9edaf51a3fb7e86b97152343201b44f
 
 We ran the reboot test again and the hanging boot went away. So that simple solution worked well and we decided to add the edited file and the delay script to the install package. So now our package looks like this:
 
