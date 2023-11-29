@@ -7,7 +7,7 @@ excerpt: "Does anyone remember <a href=\"https://en.wikipedia.org/wiki/Xgrid\">X
 dsq_thread_id:
     - '5314396143'
 image: /assets/uploads/2016/11/backburner-server-list-populated.png
-categories: [Guide]
+categories: [Guides]
 tags: [autodesk, backburner, Maya, scripts, render farm]
 ---
 
