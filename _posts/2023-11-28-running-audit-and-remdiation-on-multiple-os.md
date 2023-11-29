@@ -27,7 +27,7 @@ Sometime last year, I started working with the gang that created the [macOS Secu
 
 ## Getting Started
 
-The only thing you need to have to set this up is a Jamf instance, mSCP scripts **for each OS** you want to manage, and highly recommend having a an extension attribute for showing the count of mSCP findings ([Jamf Compliance Editor](https://trusted.jamf.com/docs/establishing-compliance-baselines) will create one for you if you don't have one). The extension attribute will be used for the smart group for remediation policies so you're not running that every day. If you need the extension attribute; here it is, I have removed the Jamf header:
+The only thing you need to have to set this up is a Jamf instance, mSCP scripts **for each OS** you want to manage, and highly recommend having a an extension attribute for showing the count of mSCP findings ([Jamf Compliance Editor](https://trusted.jamf.com/docs/establishing-compliance-baselines) will create one for you if you don't have one). The extension attribute will be used for the smart group for remediation policies so you're not running that every day. If you need the extension attribute; here it is, I have removed the Jamf header because it's too long (but know this is a Jamf script from JCE):
 
 ### Extension Attribute: compliance-FailedResultsCount.sh
 
