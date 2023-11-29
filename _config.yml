@@ -17,7 +17,7 @@ timezone: America/New_York
 
 title: Year of The Geek # the main title
 
-tagline: Good beer, crappy code.. # it will display as the sub-title
+tagline: Good beer, crappy code. # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   good beer, crappy code.
