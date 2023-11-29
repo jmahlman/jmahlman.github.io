@@ -81,22 +81,27 @@ avatar: assets/img/MyHead.png
 toc: true
 
 comments:
-  active: disqus # The global switch for posts comments, e.g., 'disqus'.  Keep it empty means disable
+  active: giscus # The global switch for posts comments, e.g., 'disqus'.  Keep it empty means disable
   # The active options are as follows:
-  disqus:
-    shortname: yotg-git # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+  # disqus:
+  #   shortname: yotg-git # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
   # utterances settings › https://utteranc.es/
   # utterances:
   #   repo: # <gh-username>/<repo>
   #   issue_term: # < url | pathname | title | ...>
-  # # Giscus options › https://giscus.app
-  # giscus:
-  #   repo: # <gh-username>/<repo>
-  #   repo_id:
-  #   category:
-  #   category_id:
+  # Giscus options › https://giscus.app
+  giscus:
+    repo: jmahlman/jmahlman.github.io # <gh-username>/<repo>
+    repo_id: R_kgDOHXlHIg
+    category: Announcements
+    category_id: DIC_kwDOHXlHIs4CbYG_
+    input_position: top # optional, default to 'bottom'
+    data-loading: lazy
+    crossorigin: anonymous
+    data-strict: 1
+    data-reactions-enabled: 1
+    data-emit-metadata: 0
   #   mapping: # optional, default to 'pathname'
-  #   input_position: # optional, default to 'bottom'
   #   lang: # optional, default to the value of `site.lang`
   #   reactions_enabled: # optional, default to the value of `1`
 
