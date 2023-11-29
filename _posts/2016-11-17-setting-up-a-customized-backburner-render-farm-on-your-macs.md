@@ -7,8 +7,8 @@ excerpt: "Does anyone remember <a href=\"https://en.wikipedia.org/wiki/Xgrid\">X
 dsq_thread_id:
     - '5314396143'
 image: /assets/uploads/2016/11/backburner-server-list-populated.png
-categories: [Guides]
-tags: [autodesk,  backburner, Maya, scripts ]
+categories: [Guide]
+tags: [autodesk, backburner, Maya, scripts, render farm]
 ---
 
 Does anyone remember [Xgrid](https://en.wikipedia.org/wiki/Xgrid)? How about [Qmaster](https://en.wikipedia.org/wiki/Apple_Qmaster)? I do! If you don’t, check out those links and come back. TL;DR: Apple made distributed rendering (relatively) easy to configure and Xgrid was particularly great because it was built into Mac OS. Apple was making headway for some easy distributed rendering for use with their pro software and hardware. Unfortunately, Apple hasn’t been kind to their professional line; I believe Qmaster lives on in Compressor but most traces of Xgrid at least are all but gone. When I was working at (what was then) NYUPoly I managed a small Mac lab and set up a very basic Xgrid system with our 15 machines and it worked, one time (It only worked once because only one person *wanted* to use it. Then it kind of just fizzled away).

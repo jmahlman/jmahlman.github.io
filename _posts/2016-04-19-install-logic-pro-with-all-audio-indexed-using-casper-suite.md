@@ -8,7 +8,7 @@ excerpt: "One of the most annoying tasks I was given when I started working at U
 dsq_thread_id:
     - '4760475217'
 image: /assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM.png
-categories: [Guides]
+categories: [Guides, Logic]
 tags: [jamf, scripts, logic]
 ---
 

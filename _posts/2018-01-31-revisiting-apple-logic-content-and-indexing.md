@@ -7,7 +7,7 @@ excerpt: "My post <a href=\"/posts/install-logic-pro-with-all-audio-indexed-usin
 dsq_thread_id:
     - '6450786694'
 image: /assets/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png
-categories: [Guides]
+categories: [Guides, Logic]
 tags: [scripts, logic, update]
 ---
 

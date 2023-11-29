@@ -5,7 +5,7 @@ date: '2019-06-23T17:44:50-05:00'
 author: john
 excerpt: "If you're a visitor to this site you may notice that I have not had an update in sometime.\_ I also haven't really done any changes to my Git Page either, both stopped in November.\_\n\nCoincidence? Not really."
 categories: [Life]
-tags: [work, rant]
+tags: [rant]
 ---
 
 If you’re a visitor to this site you may notice that I have not had an update in sometime. I also haven’t really done any changes to my Git Page either, both stopped in November.
