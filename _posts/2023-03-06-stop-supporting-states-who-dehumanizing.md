@@ -7,16 +7,10 @@ excerpt: "I'm going to keep this post as simple as possible and do my best attem
 - Human rights are not political
 - Abortion is healthcare
 - Love is love"
-
-layout: post
 comments: false
 image: 
-categories:
-    - Life
-tags:
-    - rant
-    - life
-    - politics
+categories: [Life]
+tags: [rant, politics]
 ---
 
 I'm going to keep this post as simple as possible and do my best attempt to keep is as civil as possible, but I can already tell you I'll probably drop a few choice words here that may not be "professional." Honestly, that's okay, because I shouldn't have to be professional regarding this topic. I'm not going to try to hide my political beliefs in this post, but I am also 100% going to say that:

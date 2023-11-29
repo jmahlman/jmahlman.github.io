@@ -4,14 +4,9 @@ title: 'Using DEPNotify for Installer Progress'
 date: '2022-05-24T15:06:04-05:00'
 author: john
 excerpt: "I’ve written a few times about DEPNotify; I really think it’s a great tool for deploying your Macs without much fuss. Since I started using it I’ve always said it would be useful for providing feedback for installs for users when using something like Jamf’s Self Service. I never got around to writing anything because I either didn’t have the time or the desire to do it…until now!"
-layout: post
 image: /assets/uploads/2022/05/Large-install-download.png
-categories:
-    - Scripts
-tags:
-    - apple
-    - jamf
-    - script
+categories: [Scripts]
+tags: [apple, jamf, script]
 ---
 
 I’ve written a few times about DEPNotify; I really think it’s a great tool for deploying your Macs without much fuss. Since I started using it I’ve always said it would be useful for providing feedback for installs for users when using something like Jamf’s Self Service. I never got around to writing anything because I either didn’t have the time or the desire to do it…until now!

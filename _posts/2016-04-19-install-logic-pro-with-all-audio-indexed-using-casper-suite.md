@@ -4,20 +4,12 @@ title: 'Install Logic Pro with All Audio Indexed for All Users'
 date: '2016-04-19T15:01:10-05:00'
 author: john
 excerpt: "One of the most annoying tasks I was given when I started working at UArts was to package and install Apple Logic Pro X with all of the audio add-ons as well as indexing for all users.  This took a lot of trial and error, but I finally managed to get it to work and I want to share how I was able to accomplish it especially since I've seen many people in the MacAdmins.org slack channel and JAMFNation ask about it.\r\n\r\nIn order to get everything you need, you have to figure out if you want to have Logic only or if you want to install GarageBand as well.  Why would you want this?  if you're in a lab environment you might have different user levels or you may have different people requesting.  Either way, it's something you need to take into account because both Logic and GarageBand share audio.  I installed both, so I had a lot of data to get and push out."
-layout: post
+
 dsq_thread_id:
     - '4760475217'
 image: /assets/uploads/2016/04/Screen-Shot-2016-04-19-at-3.13.14-PM.png
-categories:
-    - 'Casper Suite'
-tags:
-    - apple
-    - casper
-    - garageband
-    - index
-    - jamf
-    - logic
-    - macosx
+categories: [Guides]
+tags: [jamf, scripts, logic]
 ---
 
 > Check out the revisited method for accomplishing this task in [this post](/posts/revisiting-apple-logic-content-and-indexing/)! (That’s a link there..click it!)

@@ -2,20 +2,15 @@
 title: 'Working around an Annoying macOS Bug'
 date: '2022-08-03T13:00:04-05:00'
 author: john
-excerpt: "Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have somehting that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap."
-layout: post
+excerpt: "Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have something that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap."
 image: 
-categories:
-    - Scripts
-tags:
-    - apple
-    - jamf
-    - script
+categories: [Scripts]
+tags: [apple, jamf]
 ---
 
-Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have somehting that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap.
+Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have something that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap.
 
-This issue has been hitting us on upgrade from macOS 12.4 to 12.5 but it doesnt seem to be happening on every machine. I am able to replicate it every time I downgrade and upgrade my M1 MacBook but my colleague didn't see it on his. I also only had one report from a user while we have over 50 M1 Macs successfully upgraded. I have also seen this on every update on my Ventura beta tester. The only way I found to remedy this issue was to boot the Mac into safe mode and either install rosetta using the command line tool (which seems to work 50% of the time...sometimes it just hangs) or to pull the config profile that allows the network extension to load (MDM still works in safe mode it seems). Very odd and annoying, so I went looking for a better solution and came up with only one option: install the Rosetta package manually. This would be great if 1: I had the installer available already and 2: I am an admin. Both or those happen to be untrue for my userbase, so now what?
+This issue has been hitting us on upgrade from macOS 12.4 to 12.5 but it doesn't seem to be happening on every machine. I am able to replicate it every time I downgrade and upgrade my M1 MacBook but my colleague didn't see it on his. I also only had one report from a user while we have over 50 M1 Macs successfully upgraded. I have also seen this on every update on my Ventura beta tester. The only way I found to remedy this issue was to boot the Mac into safe mode and either install rosetta using the command line tool (which seems to work 50% of the time...sometimes it just hangs) or to pull the config profile that allows the network extension to load (MDM still works in safe mode it seems). Very odd and annoying, so I went looking for a better solution and came up with only one option: install the Rosetta package manually. This would be great if 1: I had the installer available already and 2: I am an admin. Both or those happen to be untrue for my userbase, so now what?
 
 ## A helper that shouldn't be needed
 
@@ -25,7 +20,7 @@ The first step was to figure out how to get the Rosetta package to install offli
 
 Here is the launch daemon for launching a script. Just set this to `RunAtLoad` and you're set.
 
-{% highlight xml linenos %}
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -41,13 +36,13 @@ Here is the launch daemon for launching a script. Just set this to `RunAtLoad` a
     <true/>
 </dict>
 </plist>
-{% endhighlight %}
+```
 
 ### Script
 
 Now, the script that the launch daemon runs. I wanted this to only run on M1 Macs and only if Rosetta wasn't found. I also wanted it to log when it ran to a plist file that we collect with an extension attribute. Here is the script with some additional logging info. 
 
-{% highlight bash linenos %}
+```bash
 #!/bin/zsh
 SCRIPTVER=1.2
 
@@ -78,7 +73,7 @@ if [[ "$(sysctl -n machdep.cpu.brand_string)" == *'Apple'* ]]; then
         /usr/bin/defaults write /Library/Preferences/com.pretendco.system.plist rosettaInstalled "$(date '+%F %T')"
     fi
 fi
-{% endhighlight %}
+```
 
 Hopefully this is pretty self explanatory; check if the CPU contains "Apple", if yes, then checks if the system is able to run x86_64 intel code using the arch binary. Pretty clean and simple.
 
@@ -86,7 +81,7 @@ Hopefully this is pretty self explanatory; check if the CPU contains "Apple", if
 
 I like installing launch daemons with a script instead of a package, so let's put everything together in a nice single script. This script has extra functions and some conctants to set, make sure you check the whole thing before you go about using it. One thing to note, you may want to only have this install on machines that have the package already on the computer or install when you run this script; however you determine that is up to you. In our case I just have that single line check after the constants.
 
-{% highlight bash linenos %}
+```bash
 #!/bin/zsh
 #shellcheck shell=bash
 
@@ -207,11 +202,11 @@ uninstall(){
 
 [[ "$1" == "uninstall" ]] && uninstall || install
 [[ "$4" == "uninstall" ]] && uninstall || install
-{% endhighlight %}
+```
 
 I also have an extension attribute to collect the date and time that it installed Rosetta (if ever).
 
-{% highlight bash linenos %}
+```bash
 #!/bin/zsh
 #shellcheck shell=bash
 
@@ -227,7 +222,7 @@ else
 fi
 
 exit 0
-{% endhighlight %}
+```
 
 ### Does it work?
 

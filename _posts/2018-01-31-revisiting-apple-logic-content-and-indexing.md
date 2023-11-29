@@ -4,22 +4,11 @@ title: 'Revisiting Apple Logic Content and Indexing'
 date: '2018-01-31T15:17:54-05:00'
 author: john
 excerpt: "My post <a href=\"/posts/install-logic-pro-with-all-audio-indexed-using-casper-suite/\">Install Logic Pro with All Audio Indexed for All Users</a>\_has been the most clicked link on my blog from the last year. \_Granted, there are not many posts available but it always seems to be the one that I link to the most on Jamfnation and Slack.\r\n\r\nSince I posted that I've discovered a few things that will make life easier down the line for when imaging and NetBooting goes away completely; whenever that actually will happen is unknown but it will most likely be coming very soon if we are to take hints from the <a href=\"https://scriptingosx.com/2017/12/imac-pro-implications-for-mac-admins/\" target=\"_blank\" rel=\"noopener\">iMac Pro</a>. \_As a Mac admin, I'm very worried about this but I do believe that Apple will give us the tools needed to do massive, automated deployments. \_That question still has no really acceptable answer (internet recovery is a <i>bad</i>\_option) but I digress. \_Below I will outline the new method that we are using to deploy audio loops and indices that is more flexible and a little more future-friendly. \_<b>Please note that the method outlined in my last post will still work, but it's highly inflexible and requires a NetBoot in order to get receipts on the machine.</b>"
-layout: post
 dsq_thread_id:
     - '6450786694'
-dsq_needs_sync:
-    - '1'
 image: /assets/uploads/2018/01/Screen-Shot-2018-01-31-at-2.29.57-PM-2.png
-categories:
-    - Guides
-tags:
-    - apple
-    - garageband
-    - guide
-    - jamf
-    - logic
-    - macos
-    - macosx
+categories: [Guides]
+tags: [scripts, logic, update]
 ---
 
 My post [Install Logic Pro with All Audio Indexed for All Users](/posts/install-logic-pro-with-all-audio-indexed-using-casper-suite/) has been the most clicked link on my blog from the last year. Granted, there are not many posts available but it always seems to be the one that I link to the most on Jamfnation and Slack.

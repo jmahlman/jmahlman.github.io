@@ -4,17 +4,8 @@ title: 'JUNC 2018 Presentation Video'
 date: '2018-11-21T23:43:03-05:00'
 author: john
 excerpt: "This year I was given the opportunity to speak at the Jamf Nation User Conference in Minneapolis, Minnesota.\_ This was my first big speaking engagement and I was so happy when my presentation was accepted.\_ I chose to speak on my DEPNotify process; basically the process I wrote about/presented before but with the completed automated process."
-layout: post
-categories:
-    - Presentation
-tags:
-    - apple
-    - depnotify
-    - jamf
-    - mac
-    - macos
-    - macosx
-    - presentation
+categories: [Presentation]
+tags: [apple, depnotify, jamf]
 format: video
 ---
 

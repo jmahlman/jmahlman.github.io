@@ -3,19 +3,10 @@ id: 226
 title: 'Choosing the Right Programs for a Lab'
 date: '2009-08-03T12:48:01-05:00'
 author: john
-layout: post
 dsq_thread_id:
     - '28237792'
-ngcp_type:
-    - opinion
-categories:
-    - Software
-tags:
-    - alternatives
-    - free
-    - 'open source'
-    - reviews
-    - software
+categories: [Software]
+tags: [FOSS, open source, free, opinion]
 ---
 
 Sometimes it’s tough to stock a lab full of computers with software. You want to get the best software of course but that usually means the most expensive. Sometimes the expensive programs aren’t even the best either.

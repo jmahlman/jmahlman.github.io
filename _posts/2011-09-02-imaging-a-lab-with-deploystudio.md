@@ -4,19 +4,10 @@ title: 'Imaging a Lab with DeployStudio'
 date: '2011-09-02T14:01:04-05:00'
 author: john
 excerpt: 'I image my lab once a year. This ensures that I have the latest updates for every machine for all programs, but it also cleans out the old stuff from the previous year that builds up over time.  Apple makes imaging very simple by installing a NetBoot feature on all of their machines and including a NetBoot server installed with MacOS X Server.  In the past I used Bombich NetRestore, a free AppleScript based program that helped make NetBoot image sets and helped with deploying them.  Mike Bombich stopped making NetRestore and suggested everyone to try DeployStudio for imaging..so I did.  I must say that DeployStudio is an amazing program especially for a free program.  It''s also very simple to get running and fairly robust. In this post I''m going to go over image creation, setup, and deployment with DeployStudio (DS) and also go over some issues I encountered and how I fixed them.'
-layout: post
 dsq_thread_id:
     - '403004551'
-categories:
-    - Guides
-tags:
-    - deploystudio
-    - free
-    - macosx
-    - servers
-    - software
-    - windows
-    - xserve
+categories: [Guides]
+tags: [deploystudio, servers, imaging, macOS, deployment]
 ---
 
 Imaging is a great thing..it really is. When you have more than 2 computers, imaging becomes your best friend…and if you buy new machines or one of your older machines dies or gets messed up, it saves so much time. I have a complete backup ready to deploy at all times for both Mac and Windows.

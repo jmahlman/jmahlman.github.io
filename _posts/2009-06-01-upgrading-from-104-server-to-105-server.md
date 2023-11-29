@@ -3,18 +3,11 @@ id: 200
 title: 'Upgrading from 10.4 Server to 10.5 Server'
 date: '2009-06-01T12:16:40-05:00'
 author: john
-layout: post
+
 dsq_thread_id:
     - '28244200'
-categories:
-    - Work
-tags:
-    - leopard
-    - macosx
-    - server
-    - update
-    - Work
-    - xserve
+categories: [Guides]
+tags: [xserve, macOS, server]
 ---
 
 As I’ve mentioned before, I manage 2 Apple Xservers and a lab full of Macs. When classes ended for the summer I decided to upgrade our Tiger server to Leopard. This was a task that I knew was going to be a lot of work especially because I was consolidating our old Dell web/mail/DNS into the Leopard machine. These computers were set up well before I came into the picture, and I was still learning new things about them as time went on. For example: I didn’t know that the old system (Wanda) ran another DNS on top of the university DNS. Confusing.
