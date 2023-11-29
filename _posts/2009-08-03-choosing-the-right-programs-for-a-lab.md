@@ -3,8 +3,6 @@ id: 226
 title: 'Choosing the Right Programs for a Lab'
 date: '2009-08-03T12:48:01-05:00'
 author: john
-dsq_thread_id:
-    - '28237792'
 categories: [Software]
 tags: [FOSS, open source, free, opinion]
 ---

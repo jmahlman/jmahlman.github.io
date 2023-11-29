@@ -4,8 +4,6 @@ title: 'Automatically match Parallels VM to Mac name'
 date: '2016-04-20T11:37:59-05:00'
 author: john
 excerpt: "Having Parallels in your environment is great, unfortunately some issues come into play when you're trying to push out a customized VM to your users. \_One of the problems we ran into was the name of the machine; if you're pushing out one VM image you're going to see tons of duplicate names on your network. \_What if you could change the VM name to the name of the host without having to worry about asking the user to do it? \_Well, that was a task I was given and I feel that I resolved it successfully. \_This was all tested with Parallels Desktop 11 and a\_Windows 10 Professional VM.\r\n\r\nUsing a few scripts (which can be found <a href=\"https://github.com/jmahlman/Mac-Admin-Scripts/tree/master/UArts%20Scripts%20(Archived)/tree/master/Rename%20Parallels%20VM\" target=\"_blank\" rel=\"noopener\">here</a>) you can accomplish this fairly easily.\r\n"
-dsq_thread_id:
-    - '4762801967'
 categories: [Guides]
 tags: [parallels, scripts, windows]
 ---
