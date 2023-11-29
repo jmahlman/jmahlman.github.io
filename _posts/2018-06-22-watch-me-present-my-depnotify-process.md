@@ -2,7 +2,7 @@
 id: 962
 title: 'Watch me present my DEPNotify Process'
 date: '2018-06-22T10:53:04-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "On June 21 the <a href=\"https://phillymacadmins.com/\" target=\"_blank\" rel=\"noopener\">Greater Philadelphia Mac Admins</a> held their monthly meet-up (also their 3 year anniversary!).\_ I decided I wanted to present my DEPNotify process to the group.\_ The event was recorded and live-streamed.\_ If you're interested in watching the recording, you can head over to <a href=\"https://youtu.be/Jk5Snii-nWA?t=32m40s\" target=\"_blank\" rel=\"noopener\">this</a> Youtube link..."
 layout: post
 categories:
@@ -14,12 +14,11 @@ tags:
     - macos
     - macosx
     - presentation
-youtubeId: Jk5Snii-nWA?t=32m40s
 ---
 
 On June 21 the [Greater Philadelphia Mac Admins](https://phillymacadmins.com/) held their monthly meet-up (also their 3 year anniversary!). I decided I wanted to present my DEPNotify process to the group. The event was recorded and live-streamed. If you’re interested in watching the recording, you can head over to [this](https://youtu.be/Jk5Snii-nWA?t=32m40s) Youtube link or view below. My presentation begins around 32:40.
 
-{% include youtubePlayer.html id=page.youtubeId %}
+{% include embed/youtube.html id='Jk5Snii-nWA?t=32m40s' %}
 
 You can find the presentation slides [here](/assets/uploads/2018/06/DEPNotify-Presentation.pdf).
 

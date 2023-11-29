@@ -2,7 +2,7 @@
 id: 849
 title: 'Revisiting Apple Logic Content and Indexing'
 date: '2018-01-31T15:17:54-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "My post <a href=\"/casper%20suite/2016/04/19/install-logic-pro-with-all-audio-indexed-using-casper-suite/\">Install Logic Pro with All Audio Indexed for All Users</a>\_has been the most clicked link on my blog from the last year. \_Granted, there are not many posts available but it always seems to be the one that I link to the most on Jamfnation and Slack.\r\n\r\nSince I posted that I've discovered a few things that will make life easier down the line for when imaging and NetBooting goes away completely; whenever that actually will happen is unknown but it will most likely be coming very soon if we are to take hints from the <a href=\"https://scriptingosx.com/2017/12/imac-pro-implications-for-mac-admins/\" target=\"_blank\" rel=\"noopener\">iMac Pro</a>. \_As a Mac admin, I'm very worried about this but I do believe that Apple will give us the tools needed to do massive, automated deployments. \_That question still has no really acceptable answer (internet recovery is a <i>bad</i>\_option) but I digress. \_Below I will outline the new method that we are using to deploy audio loops and indices that is more flexible and a little more future-friendly. \_<b>Please note that the method outlined in my last post will still work, but it's highly inflexible and requires a NetBoot in order to get receipts on the machine.</b>"
 layout: post
 dsq_thread_id:
@@ -72,7 +72,22 @@ I already had the appleloops script package ready, now I just needed it to get o
 
 I then wrote a quick script that would do the work of checking for the script and installing if needed:
 
-https://gist.github.com/b45cab1a5514ed33ea6e5556b23026e
+```bash
+#!/bin/sh
+
+if [ ! -f "/usr/local/bin/appleloops" ]; then
+	echo "Installing Apple-Loops-Install script from JSS"
+	/usr/local/jamf/bin/jamf policy -event apple-loops-installer
+	caffeinate -i /usr/local/bin/appleloops --mute-progress-bar --deployment $4 --pkg-server http://url.to.folder/appleloops
+	if [ ! -f "/usr/local/bin/appleloops" ]; then # Did the install work?
+		echo "Unable to install Apple-Loops-Install script, aborting!"
+		exit 1
+	fi
+else
+    caffeinate -i /usr/local/bin/appleloops --mute-progress-bar --deployment $4 --pkg-server http://url.to.folder/appleloops
+fi
+```
+{: file='appleloops-install.sh'}
 
 What the script also allows for is customization of what loops to install. The `$4` parameter allows me to specify if I want the mandatory packages, the optional packages, or both by adding -m, -o, or -m -o to my script parameters in jamf.
 

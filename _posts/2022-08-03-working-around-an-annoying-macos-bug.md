@@ -1,7 +1,7 @@
 ---
 title: 'Working around an Annoying macOS Bug'
 date: '2022-08-03T13:00:04-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "Stop me if you're heard this before; you upgrade your M1 Mac and try to run something that needs Rosetta, you know it was installed but macOS tells you you need to install it again. I know I'm not the only one, it's in the MacAdmins Slack a bunch. Seems that macOS likes removing Rosetta during upgrades for some reason. While this may not be an issue for most people but if you have somehting that starts at boot time that requires Rosetta (say...a security app) what happens? You have Rosetta re-install after updates, right? In jamf you probably have a policy or script that just runs `softwareupdate --install-rosetta --agree-to-license` when an update happens or an EA that updates, either way you have something to install it. Well, what happens when that app is controlling your network and because it cannot start you have no internet access? Well...crap."
 layout: post
 image: 

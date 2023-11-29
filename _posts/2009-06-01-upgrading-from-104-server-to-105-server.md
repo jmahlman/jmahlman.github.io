@@ -2,7 +2,7 @@
 id: 200
 title: 'Upgrading from 10.4 Server to 10.5 Server'
 date: '2009-06-01T12:16:40-05:00'
-author: 'John Mahlman IV'
+author: john
 layout: post
 dsq_thread_id:
     - '28244200'

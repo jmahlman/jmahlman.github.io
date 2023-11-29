@@ -2,7 +2,7 @@
 id: 774
 title: 'Setting up a Customized Backburner Render Farm on your Macs'
 date: '2016-11-17T13:20:50-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "Does anyone remember <a href=\"https://en.wikipedia.org/wiki/Xgrid\">Xgrid</a>? \_How about <a href=\"https://en.wikipedia.org/wiki/Apple_Qmaster\">Qmaster</a>? I do! \_If you don't, check out those links and come back. \_TL;DR: Apple made distributed rendering (relatively) easy to configure and Xgrid was particularly great because it was built into Mac OS. \_Apple was making headway for some easy\_distributed rendering for use with their pro software and hardware. \_Unfortunately, Apple hasn't been kind to their professional line; I believe Qmaster lives on in Compressor but most traces\_of Xgrid at least are all but gone. \_When I was working at (what was then) NYUPoly I managed a small Mac lab and set up a very basic Xgrid system with our 15 machines and it worked, one time.\r\n\r\nSo when we were asked if a distributed rendering system (or render farm) for Maya (and possibly others) was something that can be done here at UArts\_I thought \"Oh fun! \_I can spend countless hours on this again and have one person use it!\" \_To my surprise, I only spent a\_<em>few</em> hours looking into this and managed to get a proof of concept working with Autodesk Backburner 2017 and Maya 2017."
 layout: post
 dsq_thread_id:
@@ -81,13 +81,92 @@ Once the servers are in a group you’re basically ready to send jobs to your re
 
 I’m not going to go into how to set your Maya project up for proper rendering (that’s the designer/artists job) but it must be set up properly. However, even if your project is set up properly, every computer needs to have access to the project files and the only way to do this is to use a shared folder that every computer can access, and the share needs to be readily accessible on the systems, Maya will not mount the shares for you. You can accomplish this is a number of ways of course but we wanted everything to be done with a single package and have the share always available. We also didn’t want to advertise the share to all users so we decided to use auto\_master to mount a public share:
 
-https://gist.github.com/4261c3c0af2a9713802f8f7a469c4ff
+```bash
+# make local "server" directory
+SERVERDIR="/macsvr1"
+if [ ! -e ${SERVERDIR} ]; then
+	mkdir ${SERVERDIR}
+	mkdir ${SERVERDIR}/Backburner
+	chmod -R 777 ${SERVERDIR}
+else
+	echo "${SERVERDIR} already exsits, skipping."
+fi
+
+# add smb mount to auto_master
+AUTOMASTER="/etc/auto_master"
+if [ "$(grep "auto_smb" $AUTOMASTER)" != "/-	auto_smb" ]; then
+	echo "Adding auto_smb to ${AUTOMASTER}"
+	echo "/-	auto_smb" >> $AUTOMASTER
+else
+	echo "auto_smb exists in ${AUTOMASTER}. Skipping auto_master setup."
+fi
+
+# create auto_smb file
+AUTOSMB="/etc/auto_smb"
+if [ ! -f ${AUTOSMB} ]; then
+	echo "Generating ${AUTOSMB}"
+	touch ${AUTOSMB}	
+ 	echo "/macsvr1/Backburner -fstype=smbfs ://guest@macsvr1/Backburner" > $AUTOSMB
+	# re-check mounts
+  	automount -vc
+else
+  echo "Skipping generation of ${AUTOSMB}. Already exists."
+fi
+```
 
 What I’m doing is creating a directory in my root folder (I’m just using the server name) and mounting the share **at startup** to that folder. This allows us to allow rendering without having to log in to a system and also hides the share from the desktop easily enough.
 
 Since I wanted to make a single package that installs Backburner, points each server to a single manager, and mounts the share I used [Packages](http://s.sudre.free.fr/Software/Packages/about.html) to bundle the Backburner package from Autodesk and my full script:
 
-https://gist.github.com/709a8eb90ae40f3a001701fb5695948
+```bash
+#!/bin/bash
+
+# This script is used to install backburner and create our automount for network directory
+
+
+# Determine working directory
+
+install_dir=`dirname $0`
+
+# Install backburner
+
+/usr/sbin/installer -dumplog -verbose -pkg $install_dir/"backburner-2017.0.0-2224.i386.pkg" -target "$3"
+
+/usr/discreet/backburner/backburnerServer -m macsvr1
+/usr/discreet/backburner/backburner_server restart
+
+# make local "server" directory
+SERVERDIR="/macsvr1"
+if [ ! -e ${SERVERDIR} ]; then
+	mkdir ${SERVERDIR}
+	mkdir ${SERVERDIR}/Backburner
+	chmod -R 777 ${SERVERDIR}
+else
+	echo "${SERVERDIR} already exsits, skipping."
+fi
+
+# add smb mount to auto_master
+AUTOMASTER="/etc/auto_master"
+if [ "$(grep "auto_smb" $AUTOMASTER)" != "/-	auto_smb" ]; then
+	echo "Adding auto_smb to ${AUTOMASTER}"
+	echo "/-	auto_smb" >> $AUTOMASTER
+else
+	echo "auto_smb exists in ${AUTOMASTER}. Skipping auto_master setup."
+fi
+
+# create auto_smb file
+AUTOSMB="/etc/auto_smb"
+if [ ! -f ${AUTOSMB} ]; then
+	echo "Generating ${AUTOSMB}"
+	touch ${AUTOSMB}	
+ 	echo "/macsvr1/Backburner -fstype=smbfs ://guest@macsvr1/Backburner" > $AUTOSMB
+	# re-check mounts
+  	automount -vc
+else
+  echo "Skipping generation of ${AUTOSMB}. Already exists."
+fi
+```
+{: file='backburner-install-automount-server.sh'}
 
 |[![Settings for creating my initial Backburner package in Packages](/assets/uploads/2016/11/backburner-packages-settings-1.png?resize=648%2C425&ssl=1)](/assets/uploads/2016/11/backburner-packages-settings-1.png?ssl=1)|
 |:--:|
@@ -109,15 +188,70 @@ The first thing we wanted to test was what happens if a machine is rebooted or s
 
 In order to stop this from happening (and hanging any systems that get rebooted when rendering) I had to delay the startup of Backburner.
 
-https://gist.github.com/beb8c05b1142e078f0083815ce27b05
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KeepAlive</key>
+	<dict>
+		<key>PathState</key>
+		<dict>
+			<key>/usr/discreet/backburner/nrapi.conf</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>Label</key>
+	<string>com.autodesk.backburner_server</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/discreet/backburner/backburnerServer</string>
+	</array>
+	<key>Nice</key>
+	<integer>18</integer>
+</dict>
+</plist>
+```
+{: file='com.autodesk.backburner_server.plist'}
 
 That there is the launch daemon plist that gets installed with Backburner. I wanted to add a delayed start in there so I just added a middle-man:
 
-https://gist.github.com/7c8e5621af2a2c686baa18182c5b0bc
+```bash
+#!/bin/sh
+
+sleep 60
+
+/usr/discreet/backburner/backburnerServer
+```
+{: file='delayBackburnerServer.sh'}
 
 I put that script in**/usr/discreet/backburner** and named it **delayBackburnerServer**. It is called by the launch daemon instead of **/usr/discreet/backburner/backburnerServer**. So now my com.autodesk.backburner\_server.plist looks like this:
 
-https://gist.github.com/9edaf51a3fb7e86b97152343201b44f
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KeepAlive</key>
+	<dict>
+		<key>PathState</key>
+		<dict>
+			<key>/usr/discreet/backburner/nrapi.conf</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>Label</key>
+	<string>com.autodesk.backburner_server</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/discreet/backburner/delayBackburnerServer</string>
+	</array>
+	<key>Nice</key>
+	<integer>18</integer>
+</dict>
+</plist>
+```
+{: file='CUSTOM-com.autodesk.backburner_server.plist'}
 
 We ran the reboot test again and the hanging boot went away. So that simple solution worked well and we decided to add the edited file and the delay script to the install package. So now our package looks like this:
 

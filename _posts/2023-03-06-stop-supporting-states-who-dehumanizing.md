@@ -1,7 +1,7 @@
 ---
 title: 'Tech Companies...Stop Supporting States who Dehumanize'
 date: '2023-03-06T09:00:00-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "I'm going to keep this post as simple as possible and do my best attempt to keep is as civil as possible, but I can already tell you I'll probably drop a few choice words here that may not be \"professional.\" Honestly, that's okay, because I shouldn't have to be professional regarding this topic. I'm not going to try to hide my political beliefs in this post, but I am also 100% going to say that:
 
 - Human rights are not political

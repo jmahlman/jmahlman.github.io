@@ -2,7 +2,7 @@
 id: 886
 title: 'Deploying Macs with DEPNotify'
 date: '2018-04-20T13:09:14-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "\"<a href=\"https://www.google.com/search?q=imaging+is+dead&amp;oq=imaging+is+dead\" target=\"_blank\" rel=\"noopener\">Imaging is dead!</a>\" is the new phrase for Mac Admins.\_ Nearly every Mac blog I follow has a post about the death of imaging, but I've held off on it because I think enough has been said about it already.\_ I will start this post off with my very condensed thoughts on the death of imaging:\r\n<h5 style=\"padding-left: 30px;\"><em><span style=\"color: #000000;\">I like being able to NetBoot and completely erase and install a system.\_ It's something that's been around for a very long time and it works very well.\_ I'm fine with adding more options for deploying/setting-up a system, but why remove something that's worked for so long?\_ I used to be able to send out a single command to every machine, have them reboot to a NetBoot set, image, and be waiting for me in the morning...now I can't.\_ So while I'm sad(angry) that imaging is apparently going away if Apple gives us the tools to make DEP deployments easier, I'll finally praise that \"imaging is dead.\"\_ </span></em></h5>\r\n<h5 style=\"padding-left: 30px;\"><em><span style=\"color: #000000;\">Until then, long live imaging.</span></em></h5>\r\nOkay, now that I got that out of the way I can continue on the whole reason for this post; DEP deployments with <a href=\"https://gitlab.com/Mactroll/DEPNotify\" target=\"_blank\" rel=\"noopener\">DEPNotify</a>!\r\n<h3>What is DEPNotify, and why?</h3>\r\nDEPNotify is a tool by <a href=\"https://gitlab.com/Mactroll\" target=\"_blank\" rel=\"noopener\">Joel Rennich</a>, the creator\_<a href=\"https://nomad.menu/\" target=\"_blank\" rel=\"noopener\">NoMAD</a>, to \"let your users know what's going on during a DEP enrollment.\"  Basically, it's an application that you lay down at enrollment time and then script it to show the user that DEP is actually doing things instead of having them done in the background.\_ It's a simple tool that doesn't really require much setup on the server-side and can be scripted very easily."
 layout: post
 image: /assets/uploads/2018/04/Screen-Shot-2018-04-19-at-1.00.00-PM.png
@@ -18,9 +18,8 @@ tags:
     - Work
 ---
 
-|**Update**|
-|:--:|
-|I have updated this process with a launch daemon! You can see the updated post [here](/dep/2018/05/10/updating-our-depnotify-process/). This process still works, but the launch daemon will solve some timing issues that you may have.|
+>I have updated this process with a launch daemon! You can see the updated post [here](/dep/2018/05/10/updating-our-depnotify-process/). This process still works, but the launch daemon will solve some timing issues that you may have.
+{: .prompt-info }
 
 “[Imaging is dead!](https://www.google.com/search?q=imaging+is+dead&oq=imaging+is+dead)” is the new phrase for Mac Admins. Nearly every Mac blog I follow has a post about the death of imaging, but I’ve held off on it because I think enough has been said about it already. I will start this post off with my very condensed thoughts on the death of imaging:
 
@@ -56,7 +55,37 @@ The application then reacts to `Command:` and `Status:` lines written to the con
 
 So you `echo "Command: some command: something else"` into (`>>`) the log file and it reads it and updates the GUI. Very simple! I started with a very basic script just to test functionality and see how it works.
 
-https://gist.github.com/0751c69b07eaad9061172abb32c20b5
+```bash
+#!/bin/bash
+
+JAMFBIN=$(/usr/bin/which jamf)
+CURRENTUSER=$(python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
+
+# Install DEPNotify first (set this up in your jamf server of course)
+$JAMFBIN policy -event install_depnotify
+DNLOG=/var/tmp/depnotify.log
+
+# Setup DEPNotify
+echo "Command: MainTitle: Preparing Device for Deployment" >> $DNLOG
+echo "Status: Installing some stuff..." >> $DNLOG
+
+#Open DepNotify
+sudo -u "$CURRENTUSER" /var/tmp/DEPNotify.app/Contents/MacOS/DEPNotify &
+
+# Do the things!
+echo "Status: Doin' the things..." >> $DNLOG
+$JAMFBIN policy -event some-policy
+
+echo "Status: Doin' more things..." >> $DNLOG
+$JAMFBIN policy -event another-policy
+
+echo "Command: RestartNow:" >> $DNLOG
+
+# Remove DEPNotify and the logs
+rm -Rf /var/tmp/DEPNotify.app
+rm -Rf $DNLOG
+```
+{: file='DEPNotify-Outline.sh'}
 
 That script was set to run with the trigger “Enrollment Complete” in my jamf server, and it was scoped to a smart group that holds all machines with “Enrollment Method: PreStage enrollment &lt;name&gt;.”
 
@@ -64,7 +93,52 @@ I booted a computer that went through internet recovery and went through the set
 
 While looking for assistance in the #depnotify channel on the [MacAdmins slack](https://macadmins.slack.com/) a user named @fgd (contact info below) mentioned that he was working on a [forked build](https://slack-files.com/T04QVKUQG-FAE6G2T55-d128fcfe22) of DEPNotify that would allow for user input. (**Update: It’s now added into DEPNotify as of 1.0.4**) The new build would look for a pref file (`menu.nomad.DEPNotify`) on the system and gather information from that and when DEPNotify saw `Command: ContinueButtonRegister: <buttonName>` in it’s control file it would show a user input dropdown. This dropdown can be customized a number of ways in the prefs file and when the user is done entering the information and continues the process a plist file with the information would be dropped in a location specified in the prefs file. So I began testing with some assistance from users in the #depnotify channel, my script started to grow; note that we’re editing the prefs file for the current user with the defaults write commands.
 
-https://gist.github.com/a6bb24378019b8a2a75553b06d7d709
+```bash
+#!/bin/bash
+
+JAMFBIN=$(/usr/bin/which jamf)
+CURRENTUSER=$(python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
+
+# Install DEPNotify first (set this up in your jamf server of course)
+$JAMFBIN policy -event install_depnotify
+DNLOG=/var/tmp/depnotify.log
+
+# Setup DEPNotify prefs and starting GUI
+
+# where to drop the plist after input
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify PathToPlistFile /var/tmp/
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify RegisterMainTitle "Assignment..."
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify RegistrationButtonLabel Assign
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify UITextFieldUpperLabel "Assigned User"
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify UITextFieldUpperPlaceholder "dadams"
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify UITextFieldLowerLabel "Asset Tag"
+sudo -u "$CURRENTUSER" defaults write menu.nomad.DEPNotify UITextFieldLowerPlaceholder "UA42LAP1337"
+echo "Command: MainTitle: Preparing Device for Deployment" >> $DNLOG
+echo "Status: Installing some stuff..." >> $DNLOG
+
+#Open DepNotify
+sudo -u "$CURRENTUSER" /var/tmp/DEPNotify.app/Contents/MacOS/DEPNotify &
+
+# Do the things!
+echo "Status: Doin' the things..." >> $DNLOG
+$JAMFBIN policy -event some-policy
+
+echo "Status: Doin' more things..." >> $DNLOG
+$JAMFBIN policy -event another-policy
+
+# call the user input dropdown
+echo "Command: ContinueButtonRegister: Assign" >> $DNLOG
+# We have the plist...now what?
+
+# We'll quit the app after we're done...but something is wrong..
+echo "Command: Quit: Done!" >> $DNLOG
+
+# Remove DEPNotify and the logs
+rm -Rf /var/tmp/DEPNotify.app
+rm -Rf $DNLOG
+rm -Rf $DNPLIST
+```
+{: file='DEPNotify-UserInput-test.sh'}
 
 You can see lines 33-35 are calling the user input dropdown but you see the question, “Now what?” We have the plist, but we’re not doing anything with it. There was also another problem I ran into with this part, since DEPNotify just reads from a stream and the user input dropdown is just a command getting sent in, it doesn’t know that it needs to wait for user input to continue. This means that the next command, `echo "Command: Quit: Done!" >> $DNLOG`, just goes into the command file thus causing DEPNotify to quit without getting input. I tried moving the assignment line up to the beginning, which worked better because the machine was doing everything and had enough time for me to enter some info…but if I didn’t enter anything and let it sit, it would just quit. So I just added a loop to check for the plist file to be created.
 
@@ -83,7 +157,29 @@ Fairly inelegant, but it gets the job done. Now I drop that in wherever I want t
 
 Next was figuring out how to get that information back into the jamf server. The plist file we have looks like this:
 
-https://gist.github.com/4a2b8a5779d092168dd00a7a66537f8
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Asset Tag</key>
+	<string>ua14lap1337</string>
+	<key>Assigned User</key>
+	<string>jmahlman</string>
+	<key>Computer Serial</key>
+	<string>XXXXXXXXXX</string>
+	<key>Computer UUID</key>
+	<string>XXXXXXXXXXXXXXXX</string>
+	<key>Default Lower label</key>
+	<string>Item 1</string>
+	<key>Default Upper label</key>
+	<string>Item 1</string>
+	<key>Regitration Date</key>
+	<string>04-19-2018 19:25</string>
+</dict>
+</plist>
+```
+{: file='sample-DEPNotify.plist'}
 
 Using the jamf API we can easily drop these into the server by pulling the info we care about from this plist. I’m just linking to my full script since it’s fairly self explanatory for anyone who will need it: [git script](https://github.com/jmahlman/Mac-Admin-Scripts/blob/master/UArts%20Scripts%20(Archived)/DEP%20Scripts/DEP-DEPNotify-assignAndRename.sh). We’re just using plistbuddy to scrape the information from the plist file into some variables and then pushing them out to the API. This script will update the username field in the jamf server, fill in the asset tag information and rename the machine locally using our naming convention.
 

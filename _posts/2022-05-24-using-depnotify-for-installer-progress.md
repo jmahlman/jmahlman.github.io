@@ -2,7 +2,7 @@
 id: 1044
 title: 'Using DEPNotify for Installer Progress'
 date: '2022-05-24T15:06:04-05:00'
-author: 'John Mahlman IV'
+author: john
 excerpt: "I’ve written a few times about DEPNotify; I really think it’s a great tool for deploying your Macs without much fuss. Since I started using it I’ve always said it would be useful for providing feedback for installs for users when using something like Jamf’s Self Service. I never got around to writing anything because I either didn’t have the time or the desire to do it…until now!"
 layout: post
 image: /assets/uploads/2022/05/Large-install-download.png
@@ -16,7 +16,8 @@ tags:
 
 I’ve written a few times about DEPNotify; I really think it’s a great tool for deploying your Macs without much fuss. Since I started using it I’ve always said it would be useful for providing feedback for installs for users when using something like Jamf’s Self Service. I never got around to writing anything because I either didn’t have the time or the desire to do it…until now!
 
-| If you want to skip right to the code, you can click [this link](https://github.com/jmahlman/Mac-Admin-Scripts/blob/master/Jamf%20Large%20Install%20Helper.sh). If you want to know more about the script and don’t care for the background jump down to this [section](#plan). |
+> If you want to skip right to the code, you can click [this link](https://github.com/jmahlman/Mac-Admin-Scripts/blob/master/Jamf%20Large%20Install%20Helper.sh). If you want to know more about the script and don’t care for the background jump down to this [section](#plan).
+{: .prompt-tip }
 
 ### Why DEPNotify?
 
@@ -32,12 +33,107 @@ The idea is simple; when a user wants to install Xcode, I want DEPNotify to open
 
 I started with the download portion since I knew how to do that already; I decided to borrow some inspiration from the erase-install script and make some functions to handle setting up DEPNofity for various tasks.
 
-https://gist.github.com/991edd0e5e8e4d85b96c51cd119c3042 %}
+```bash
+# Call this with "install" or "download" to update the DEPNotify window and progress dialogs
+depNotifyProgress() {
+    last_progress_value=0
+    current_progress_value=0
+
+    if [[ "$1" == "download" ]]; then
+        echo "Command: MainTitle: Downloading $APPNAME" >> $DNLOG
+
+        # Wait for for the download to start, if it doesn't we'll bail out.
+        while [ ! -f "$JAMF_DOWNLOADS/$PKG_NAME" ]; do
+            userCancelProcess
+            if [[ "$TIMEOUT" == 0 ]]; then
+                echo "ERROR: (depNotifyProgress) Timeout while waiting for the download to start."
+                {
+                /bin/echo "Command: MainText: $DL_ERROR"
+                echo "Status: Error downloading $PKG_NAME"
+                echo "Command: DeterminateManualStep: 100"
+                echo "Command: Quit: $DL_ERROR"
+                } >> $DNLOG
+                exit 1
+            fi
+            sleep 1
+            ((TIMEOUT--))
+        done
+
+        # Download started, lets set the progress bar
+        echo "Status: Downloading - 0%" >> $DNLOG
+        echo "Command: DeterminateManual: 100" >> $DNLOG
+
+        # Until at least 100% is reached, calculate the downloading progress and move the bar accordingly
+        until [[ "$current_progress_value" -ge 100 ]]; do
+            # shellcheck disable=SC2012
+            until [ "$current_progress_value" -gt "$last_progress_value" ]; do
+                # Check if the download is in the waiting room (it moves from downloads to the waiting room after it's fully downloaded)
+                if [[ ! -e "$JAMF_DOWNLOADS/$PKG_NAME" ]]; then
+                    CURRENT_DL_SIZE=$(ls -l "$JAMF_WAITING_ROOM/$PKG_NAME" | awk '{ print $5 }' | awk '{$1/=1024;printf "%.i\n",$1}')
+                    userCancelProcess
+                    current_progress_value=$((CURRENT_DL_SIZE * 100 / PKG_Size))
+                    sleep 2
+                else
+                    CURRENT_DL_SIZE=$(ls -l "$JAMF_DOWNLOADS/$PKG_NAME" | awk '{ print $5 }' | awk '{$1/=1024;printf "%.i\n",$1}')
+                    userCancelProcess
+                    current_progress_value=$((CURRENT_DL_SIZE * 100 / PKG_Size))
+                    sleep 2
+                fi
+            done
+            echo "Command: DeterminateManualStep: $((current_progress_value-last_progress_value))" >> $DNLOG
+            echo "Status: Downloading - $current_progress_value%" >> $DNLOG
+            last_progress_value=$current_progress_value
+        done
+    fi
+}
+```
+
 Jamf downloads files into /Library/Application Support/JAMF/Downloads when it runs a policy, so all we had to do was calculate the current download from the package size (also passed as a variable). Using this we can update the progress bar in DEPNotify and accurately show the user how far along their giant download is. The function also checks for the file in /Library/Application Support/JAMF/Waiting Room because jamf moves from downloads to the waiting room after it’s fully downloaded when caching, more on that in the section on setting up your jamf policy.
 
 After the download is complete we want to quit DEPNotify and re-launch it with some updated UI elements for the installation. This part seemed simple but I didn’t know how to monitor installation process since the packages didn’t output any percentages. I first was trying to use a timer to “estimate” the installer; basically pass a variable of “how many seconds *should* this take to install” and update the progress bar using that. I wrote a manual install function:
 
-https://gist.github.com/5fec4fe400011ec34af6b91b4c7fd036 %}
+```bash
+#BEGINNING OF FUNCTION GOES HERE
+
+    elif [[ "$1" == "manualInstall" ]]; then
+        echo "Command: MainTitle: Installing $APPNAME" >> $DNLOG
+        # Install started, lets set the progress bar
+        {
+            echo "Command: Image: $INSTALL_ICON"
+            /bin/echo "Command: MainText: $INSTALL_DESC"
+            echo "Status: Preparing to Install $PKG_NAME"
+            echo "Command: DeterminateManual: $INSTALL_TIMER"
+        } >> $DNLOG
+
+        # Update the progress using a timer until a receipt is found. If it gets full it'll just wait for a receipt.
+        until [[ "$current_progress_value" -ge $INSTALL_TIMER ]] && [[ $(receiptIsPresent) -eq 1 ]]; do
+            userCancelProcess
+            sleep 5
+            current_progress_value=$((current_progress_value + 5))
+            echo "Command: DeterminateManualStep: 5" >> $DNLOG
+            echo "Status: Installing $PKG_NAME" >> $DNLOG
+            receiptIsPresent && break
+            last_progress_value=$current_progress_value
+        done
+    fi
+# END OF FUNCTION GOES HERE
+
+receiptIsPresent() {
+    if [[ $(find "/Library/Application Support/JAMF/Receipts/$PKG_NAME" -type f -maxdepth 1) ]]; then
+        current_progress_value="100"
+        # If it finds the receipt, just set the progress bar to full
+        {
+        echo "Installer is not running, exiting."
+        echo "Command: DeterminateManualStep: 100"
+        echo "Status: $PKG_NAME successfully installed."
+        } >> $DNLOG
+        sleep 10
+        return 0
+    fi
+return 1
+}
+```
+
 This worked but it wasn’t really robust for obvious reasons. I really didn’t like this idea from the start but I didn’t know of any good way to monitor the installation..until I discovered that the jamf binary can help out here. The jamf binary has an “install” flag which has a bunch of modifiers:
 
 ```text
@@ -96,12 +192,131 @@ Successfully installed Microsoft-Visual Studio Code-1.66.2.pkg.
 
 I decided to use the same function but added an “install” argument; here is the whole function:
 
-https://gist.github.com/e7b9130dc2a911c14f99f26aaee014fc %}
+```bash
+# Call this with "install" or "download" to update the DEPNotify window and progress dialogs
+depNotifyProgress() {
+    last_progress_value=0
+    current_progress_value=0
+
+    if [[ "$1" == "download" ]]; then
+        echo "Command: MainTitle: Downloading $APPNAME" >> $DNLOG
+
+        # Wait for for the download to start, if it doesn't we'll bail out.
+        while [ ! -f "$JAMF_DOWNLOADS/$PKG_NAME" ]; do
+            userCancelProcess
+            if [[ "$TIMEOUT" == 0 ]]; then
+                echo "ERROR: (depNotifyProgress) Timeout while waiting for the download to start."
+                {
+                /bin/echo "Command: MainText: $DL_ERROR"
+                echo "Status: Error downloading $PKG_NAME"
+                echo "Command: DeterminateManualStep: 100"
+                echo "Command: Quit: $DL_ERROR"
+                } >> $DNLOG
+                exit 1
+            fi
+            sleep 1
+            ((TIMEOUT--))
+        done
+
+        # Download started, lets set the progress bar
+        echo "Status: Downloading - 0%" >> $DNLOG
+        echo "Command: DeterminateManual: 100" >> $DNLOG
+
+        # Until at least 100% is reached, calculate the downloading progress and move the bar accordingly
+        until [[ "$current_progress_value" -ge 100 ]]; do
+            # shellcheck disable=SC2012
+            until [ "$current_progress_value" -gt "$last_progress_value" ]; do
+                # Check if the download is in the waiting room (it moves from downloads to the waiting room after it's fully downloaded)
+                if [[ ! -e "$JAMF_DOWNLOADS/$PKG_NAME" ]]; then
+                    CURRENT_DL_SIZE=$(ls -l "$JAMF_WAITING_ROOM/$PKG_NAME" | awk '{ print $5 }' | awk '{$1/=1024;printf "%.i\n",$1}')
+                    userCancelProcess
+                    current_progress_value=$((CURRENT_DL_SIZE * 100 / PKG_Size))
+                    sleep 2
+                else
+                    CURRENT_DL_SIZE=$(ls -l "$JAMF_DOWNLOADS/$PKG_NAME" | awk '{ print $5 }' | awk '{$1/=1024;printf "%.i\n",$1}')
+                    userCancelProcess
+                    current_progress_value=$((CURRENT_DL_SIZE * 100 / PKG_Size))
+                    sleep 2
+                fi
+            done
+            echo "Command: DeterminateManualStep: $((current_progress_value-last_progress_value))" >> $DNLOG
+            echo "Status: Downloading - $current_progress_value%" >> $DNLOG
+            last_progress_value=$current_progress_value
+        done
+    elif [[ "$1" == "install" ]]; then
+        echo "Command: MainTitle: Installing $APPNAME" >> $DNLOG
+        # Install started, lets set the progress bar
+        {
+            echo "Command: Image: $INSTALL_ICON"
+            /bin/echo "Command: MainText: $INSTALL_DESC"
+            echo "Status: Preparing to Install $PKG_NAME"
+            echo "Command: DeterminateManual: 100"
+        } >> $DNLOG
+        until grep -q "progress status" "$LOG_FILE" ; do
+            sleep 2
+        done
+        # Update the progress using a timer until it's at 100%
+        until [[ "$current_progress_value" -ge "100" ]]; do
+            until [ "$current_progress_value" -gt "$last_progress_value" ]; do
+                INSTALL_STATUS=$(sed -nE 's/installer:PHASE:(.*)/\1/p' < $LOG_FILE | tail -n 1)
+                INSTALL_FAILED=$(sed -nE 's/installer:(.*)/\1/p' < $LOG_FILE | tail -n 1 | grep -c "The Installer encountered an error")
+                if [[ $INSTALL_FAILED -ge "1" ]]; then
+                    echo "Install failed, notifying user."
+                    echo "Command: Quit: $INSTALL_ERROR" >> $DNLOG 
+                fi
+                userCancelProcess
+                current_progress_value=$(sed -nE 's/installer:%([0-9]*).*/\1/p' < $LOG_FILE | tail -n 1)
+                sleep 2
+            done
+            echo "Command: DeterminateManualStep: $((current_progress_value-last_progress_value))" >> $DNLOG
+            echo "Status: $INSTALL_STATUS - $current_progress_value%" >> $DNLOG
+            last_progress_value=$current_progress_value
+        done
+    fi
+}
+```
+
 Yep, I am using the jamf binary to do the install, not the installer. This is so I can use the –showProgress flag. <u>Update</u>: someone pointed out that installer has the -verbose flag which provides the same info as the jamf binary. For some reason I forgot about this! I’ll probably expand on the script to use built in tools instead.
 
 With these functions I can pass variables into the script and have it do what I want. I tried it out with calling a policy to do the entire download and install (just a basic install package in jamf). The process would work but if you stopped it for any reason during the install, jamf would re-download the package every time (interrupting during the download was fine since it can resume). I really didn’t want that, I’m trying to give users the ability to stop the download or install when they want and restart it again if desired (without having to download the entire 16GB again). I also don’t want to keep the download in the jamf downloads folder because if it’s there I don’t really know about it. I decided to try a caching policy; this will download the file to the downloads folder and them move it to the jamf waiting room (it also adds an XML file with some info). The good thing about this, we can pre-cache the download if we want, jamf will know about it, and we can act on it via jamf Pro if we so desire. So the function will watch the download folder and if it can’t find it there will then check the waiting room for the download to see if it’s complete and then continue on. Moreover, if the download is already in the waiting room and complete (the size matches) then we can even skip the entire download portion and go right to installing it! So my main portion of the script (the part that actually does work) is very simple:
 
-https://gist.github.com/0ddb4f5097f4978f355f8e457f3459ce %}
+```bash
+###############
+## MAIN BODY ##
+###############
+echo "$SCRIPT_NAME version $SCRIPTVER"
+# ensure the finish function is executed when exit is signaled
+trap "finish" EXIT
+
+# ensure computer does not go to sleep while running this script
+echo "   [$SCRIPT_NAME] Caffeinating this script (pid=$$)"
+/usr/bin/caffeinate -dimsu -w $$ &
+
+check_free_space
+# Let's first check if the package existis in the downloads and it matches the size...
+# this avoids us having to run the policy again and causing the sceript to re-download the whole thing again.
+if [[ -e "$JAMF_WAITING_ROOM/$PKG_NAME" ]] && [[ $CURRENT_PKG_SIZE == "$PKG_Size" ]]; then
+    echo "Package already download, installing with jamf binary."
+    dep_notify
+    installWithJamf
+    depNotifyProgress install
+    cleanupWaitingRoom
+else
+    dep_notify
+    cachePackageWithJamf "$JAMF_TRIGGER"
+    depNotifyProgress download
+    sleep 5
+    dep_notify_quit
+    dep_notify
+    installWithJamf
+    depNotifyProgress install
+    cleanupWaitingRoom
+fi
+
+# Run recon after installing only.
+$JAMFBINARY recon
+```
+{: file='depNotifyInstallHelper-Working portion.sh'}
 
 ### Putting it together
 
