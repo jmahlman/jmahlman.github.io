@@ -96,11 +96,6 @@ comments:
     category: Announcements
     category_id: DIC_kwDOHXlHIs4CbYG_
     input_position: top # optional, default to 'bottom'
-    data-loading: lazy
-    crossorigin: anonymous
-    data-strict: 1
-    data-reactions-enabled: 1
-    data-emit-metadata: 0
   #   mapping: # optional, default to 'pathname'
   #   lang: # optional, default to the value of `site.lang`
   #   reactions_enabled: # optional, default to the value of `1`
