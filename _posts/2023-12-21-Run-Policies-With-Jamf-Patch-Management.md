@@ -43,7 +43,7 @@ parsedTriggerName=$(echo "${ourPKGName:t}" | /usr/bin/sed -E 's/RunTrigger-([^.]
 ```
 {: file='postinstall.sh'}
 
-This script will parse the package name (sans "RunTrigger-") and run a `jamf policy -event <PACKAGENAME>` when "installed". You name the package whatever trigger you want to run, in our case "InstallWireshark". Now build your payload-free package and voila, you have a package that will run a jamf policy based on the name of the package!
+This script will parse the package name (sans `RunTrigger-`) and run a `jamf policy -event <PACKAGENAME>` when "installed". You name the package whatever trigger you want to run, in our case "InstallWireshark". Now build your payload-free package and voila, you have a package that will run a jamf policy based on the name of the package!
 
 Package Info               |  Post Install Script
 :-------------------------:|:-------------------------:
