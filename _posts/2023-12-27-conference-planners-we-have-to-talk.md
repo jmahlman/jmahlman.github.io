@@ -24,6 +24,8 @@ Whether it's the first or third time, this is still pretty egregious and shows a
 
 ## Religion isn't the only issue...again
 
+While the letter from the Mac Admins Foundation is god, it misses one glaring issue with one of the largest Mac Admin conferences in he world; the location.
+
 Last year, Jamf also made the decision to host JNUC in Texas, a state that has a long track record of passing laws to dehumanize marginalized groups. I'm not going to re-hash everything from my previous post, please go read it if you're interested in that. I did contact Jamf via several channels and let them know that their decision was an ignorant one and that I would not be attending and I would publicly ask others to do the same. I know that several of my colleagues and friends chose to sit JNUC 2023 out due to this decision and I had hoped that Jamf would learn from this lapse in judgement.
 
 **They didn't.**
