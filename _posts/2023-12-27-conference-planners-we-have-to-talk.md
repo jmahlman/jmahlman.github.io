@@ -1,5 +1,5 @@
 ---
-title: Conference planners, we have to talk
+title: 'Conference planners, we have to talk'
 date: 2023-12-28T14:00-05:00
 author: john
 img_path: /assets/uploads/2023/12/inclusion-post
