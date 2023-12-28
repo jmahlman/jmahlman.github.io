@@ -7,11 +7,8 @@ excerpt: |-
   Let's be honest, Jamf hasn't done a great job with it's patch management since it was released back in 2016 or so. Actually, patch management started as patch **reporting** which simply reported on versions installed. It was a bit later before they added the *management* part of it.  
   But this post isn't really about how patch could be so much better if Jamf actually put work into it (instead of just buying/bolting on other solutions), this is about making it a little more useful by letting it run policies instead of PKGs.
 image: Patch-Screenshot.png
-categories:
-  - Guides
-tags:
-  - apple
-  - jamf
+categories: [Guides]
+tags: [apple, jamf]
 ---
 Let's be honest, Jamf hasn't done a great job with it's patch management since it was released back in 2016 or so. Actually, patch management started as patch **reporting** which simply reported on versions installed. It was a bit later before they added the *management* part of it. But this post isn't really about how patch could be so much better if Jamf actually put work into it (instead of just buying/bolting on other solutions), this is about making it a little more useful by letting it run policies instead of PKGs.
 
