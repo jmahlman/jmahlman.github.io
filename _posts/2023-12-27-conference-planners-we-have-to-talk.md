@@ -16,7 +16,7 @@ A little over a week ago, the Mac Admins Foundation [posted an "Open Letter on C
 
 > The Mac Admins Foundation (MAF) has observed that at least two conferences in 2024 are scheduled at the same time as a religious holiday celebrated by a considerable portion of the Mac Admins community.
 
-While they don't call our any conference or organization in particular they are referring to the Jamf Nation User Conference (October 1-3, 2024) and Mac SysAdmin ([October 1-4, 2024](https://twitter.com/macsysadmin/status/1730544542854656394)). Both of these conferences are scheduled during [Rosh Hashana](https://www.hebcal.com/holidays/rosh-hashana-2024), a holiday that has known dates for [hundreds of years in the future](https://www.hebcal.com/holidays/rosh-hashana-2500).  
+While they don't call our any conference or organization in particular they are referring to the Jamf Nation User Conference (October 1-3, 2024) and Mac SysAdmin ([October 1-4, 2024](https://twitter.com/macsysadmin/status/1730544542854656394)). Both of these conferences are scheduled during [Rosh Hashanah](https://www.hebcal.com/holidays/rosh-hashana-2024), a holiday that has known dates for [hundreds of years in the future](https://www.hebcal.com/holidays/rosh-hashana-2500).  
 
 Jamf has definitely done this in the past (at least in 2023 and 2022), I'm not entirely sure about MSA, but it seems that they have not. While I know planning conferences can be difficult, it's not hard to look at a calendar and have specific blackout dates for the highest of holidays for each religion.
 
