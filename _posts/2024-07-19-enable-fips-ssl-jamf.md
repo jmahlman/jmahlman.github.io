@@ -193,7 +193,7 @@ nano /usr/local/jss/tomcat/webapps/ROOT/WEB-INF/xml/DataBase.xml
 ```
 {: file='../jss/tomcat/webapps/ROOT/WEB-INF/xml/DataBase.xml'}
 
-> You're adding the following to the end of that line: `&amp;useSSL=true&amp;requireSSL=true&amp;verifyServerCertificate=false`
+> This is what you are adding to the default line: `&amp;useSSL=true&amp;requireSSL=true&amp;verifyServerCertificate=false`
 {: .prompt-info}
 
 * You can test your database connection using the jamf-pro binary: `jamf-pro database test-connection`
