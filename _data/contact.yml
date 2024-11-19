@@ -19,6 +19,11 @@
 - type: linkedin
   icon: 'fab fa-linkedin'   # icons powered by <https://fontawesome.com/>
   url:  'https://www.linkedin.com/in/john-mahlman-iv-58a88450/'                  # Fill with your Linkedin homepage
+
+- type: bluesky
+  icon: 'fa-brands fa-bluesky'   # icons powered by <https://fontawesome.com/>
+  url:  'https://bsky.app/profile/jmahlman.bsky.social'                  # Fill with your Mastodon account page, rel="me" will be applied for verification
+
 #
 # - type: stack-overflow
 #   icon: 'fab fa-stack-overflow'

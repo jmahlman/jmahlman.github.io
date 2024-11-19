@@ -33,6 +33,10 @@ platforms:
       - label: fosstodon.org
         link: "https://fosstodon.org/"
 
+  - type: Bluesky
+    icon: "fa-brands fa-bluesky"
+    link: "https://bsky.app/intent/compose?text=TITLE%20URL"
+  
   - type: Telegram
     icon: "fab fa-telegram"
     link: "https://t.me/share/url?url=URL&text=TITLE"
