@@ -2,7 +2,7 @@
 title: 'Running audit and remediation on multiple OSes with mSCP and Jamf Pro'
 date: '2023-11-28T09:00:00-05:00'
 author: john
-img_path: /assets/uploads/2023/11/mscp-post/
+media_subpath: /assets/uploads/2023/11/mscp-post/
 excerpt: "Sometime last year, I started working with the gang that created the <a href=\"https://github.com/usnistgov/macos_security\" target=\"_blank\" rel=\"noopener\">macOS Security Compliance project.</a> First, if you're not familiar with the project, head to the link above but I highly recommend <a href=\"https://it-training.apple.com/tutorials/deployment/sec005\" target=\"_blank\" rel=\"noopener\">Apple's excellent training</a> page that covers how to use the project. If you manage Macs at scale and have a need to secure them to specific standards (or want to start doing that) this is <b>the</b> project you need to know and learn. This blog will not be covering <i>how</i> to use the mSCP, what I want to share is how to implement your mSCP audit and remediation using Jamf when you have multiple operations systems in your environment as you should not be running the same script for all versions."
 image: mscp_logo.png
 categories: [Guides, MSCP]

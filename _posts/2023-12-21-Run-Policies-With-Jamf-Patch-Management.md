@@ -2,7 +2,7 @@
 title: Run Policies With Jamf Patch Management
 date: 2023-12-22T10:30-05:00
 author: john
-img_path: /assets/uploads/2023/12/jamf-patch-post/
+media_subpath: /assets/uploads/2023/12/jamf-patch-post/
 excerpt: |-
   Let's be honest, Jamf hasn't done a great job with it's patch management since it was released back in 2016 or so. Actually, patch management started as patch **reporting** which simply reported on versions installed. It was a bit later before they added the *management* part of it.  
   But this post isn't really about how patch could be so much better if Jamf actually put work into it (instead of just buying/bolting on other solutions), this is about making it a little more useful by letting it run policies instead of PKGs.
