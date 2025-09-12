@@ -6,7 +6,7 @@ excerpt: |-
   Back in February, I joined the board of the Mac Admins Foundation, a 501(c)(3) charitable organization with the goal to advance the global community of people who manage Apple devices at large and small scales by providing them with the tools and training they need to grow and thrive.
   I'm writing about Giving Tuesday because we're running our first ever Membership/Donor drive from November 27th to December 6th. We're reaching out to our vast user base and asking you to open your wallets to help your community.
 comments: true
-img_path: /assets/uploads/2024/12/Giving-tuesday-post/
+media_subpath: /assets/uploads/2024/12/Giving-tuesday-post/
 image: MAF-Giving Tuesday-Header.jpg
 categories:
   - Life
