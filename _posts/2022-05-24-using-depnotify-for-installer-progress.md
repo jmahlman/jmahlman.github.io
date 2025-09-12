@@ -11,7 +11,7 @@ tags: [apple, jamf, script]
 
 I’ve written a few times about DEPNotify; I really think it’s a great tool for deploying your Macs without much fuss. Since I started using it I’ve always said it would be useful for providing feedback for installs for users when using something like Jamf’s Self Service. I never got around to writing anything because I either didn’t have the time or the desire to do it…until now!
 
-> If you want to skip right to the code, you can click [this link](https://github.com/jmahlman/Mac-Admin-Scripts/blob/master/Jamf%20Large%20Install%20Helper.sh). If you want to know more about the script and don’t care for the background jump down to this [section](#plan).
+> If you want to skip right to the code, you can click [this link](https://github.com/jmahlman/Mac-Admin-Scripts/blob/master/Jamf%20Large%20Install%20Helper.sh). If you want to know more about the script and don’t care for the background jump down to this [section](#a-simple-plan).
 {: .prompt-tip }
 
 ### Why DEPNotify?
@@ -22,7 +22,7 @@ I chose DEPNotify for a few reasons. The first and main reason is I know it; I�
 
 Most of my users at my current job are developers; probably somewhere between 50 and 75%. They need lots of developer tools, most of these tools are pretty small…except for Xcode. Xcode is a 10GB download, unxipped it’s 16GB and then installed with the SDKs and sims it’s around 33GB. I have tried using Apple’s VPP to deploy Xcode with very mixed results usually ending in failure; this unfortunately means that we have to package Xcode, store it, and server it to update and install for our user-base. Our internal servers are definitely not as fast or robust as Apple’s CDN which means downloading that 16GB package takes quite a long time. This caused a problem for our users (and in turn, us), they would click the button to start installation and it would start but in Jamf Self Service the little progress circle would just spin and spin and spin causing tickets because people would just assume the install failed. This is where I decided to take action.
 
-### A simple plan..<a id="plan"></a>
+### A simple plan..
 
 The idea is simple; when a user wants to install Xcode, I want DEPNotify to open and show the user that it’s downloading. After the download, show the install progress because this can also take a while especially with a post install script to finish things to allow non-admins to launch. I knew how to monitor a download from Jamf, but I didn’t know how to monitor the installation progress. I had to also make some decisions on *how* I’m going to complete the download and install; will I have the script do it or will I have Jamf do everything? I ended up with using a mixture.
 
@@ -337,9 +337,9 @@ Note that there is no inventory collection in this policy because we don’t nee
 
 When a user opens Self Service and clicks the button:
 
-|[![Example of Xcode downloading with the large install helper](/assets/uploads/2022/05/Large-install-download.png)](/assets/uploads/2022/05/Large-install-download.png?ssl=1)|
-|:--:|
-|this pops up, much nicer than a spinning circle.|
+| [![Example of Xcode downloading with the large install helper](/assets/uploads/2022/05/Large-install-download.png)](/assets/uploads/2022/05/Large-install-download.png?ssl=1) |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                                               this pops up, much nicer than a spinning circle.                                                                |
 
 And when its installing, this window will show:
 [![Example of Xcode preparing to install with the large install helper](/assets/uploads/2022/05/Large-install-preparing.png)](/assets/uploads/2022/05/Large-install-preparing.png?ssl=1)
