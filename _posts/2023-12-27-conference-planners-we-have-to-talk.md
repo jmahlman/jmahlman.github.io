@@ -2,7 +2,7 @@
 title: 'Conference planners, we have to talk'
 date: 2023-12-28T14:00-05:00
 author: john
-img_path: /assets/uploads/2023/12/inclusion-post
+media_subpath: /assets/uploads/2023/12/inclusion-post
 excerpt: |-
     I can't believe I have two write about this again...but here we are. Conference planners and companies, why are you so bad at choosing locations and dates?
 image: inclusion.png

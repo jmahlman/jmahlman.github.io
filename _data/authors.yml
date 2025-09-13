@@ -6,7 +6,6 @@
 #   url: {homepage_of_author}
 # -------------------------------------
 
-john: 
+john:
   name: John Mahlman
-  twitter: floydiandroid
   url: https://yearofthegeek.net/
