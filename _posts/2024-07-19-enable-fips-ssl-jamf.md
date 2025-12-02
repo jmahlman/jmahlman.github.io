@@ -173,7 +173,7 @@ chown -R jamftomcat:jamftomcat /opt/jss/mysql-certs/
 
 ```bash
 keytool -import -trustcacerts -file /opt/jss/mysql-certs/ca.pem -alias "Jamf Database CA" -keystore /etc/pki/java/cacerts
-keytool -import -trustcacerts -file /usr/jss/mysql-certs/client-cert.pem -alias "Jamf Client Cert" -keystore /etc/pki/java/cacerts
+keytool -import -trustcacerts -file /opt/jss/mysql-certs/client-cert.pem -alias "Jamf Client Cert" -keystore /etc/pki/java/cacerts
 ```
 
 ### Update the Jamf database.xml file
