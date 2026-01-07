@@ -29,7 +29,7 @@ platforms:
     # See: https://github.com/justinribeiro/share-to-mastodon#properties
     instances:
       - label: mstdn.social
-        link: "https://pmstdn.social"
+        link: "https://mstdn.social"
       - label: mastodon.social
         link: "https://mastodon.social/"
       - label: mastodon.online
