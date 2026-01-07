@@ -120,9 +120,9 @@ comments:
   # Giscus options › https://giscus.app
   giscus:
     repo: jmahlman/jmahlman.github.io # <gh-username>/<repo>
-    repo_id: R_kgDOHXlHIg
+    repo_id: R_kgDOQ1Afag
     category: Announcements
-    category_id: DIC_kwDOHXlHIs4CbYG_
+    category_id: DIC_kwDOQ1Afas4C0qNb
     # mapping: # optional, default to 'pathname'
     # strict: # optional, default to '0'
     input_position: top # optional, default to 'bottom'
