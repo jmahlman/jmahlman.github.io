@@ -1,6 +1,12 @@
 name: Post Latest Blog from RSS to Bluesky
 
 on:
+  workflow_run:
+    workflows:
+      - "Build and Deploy"
+    types:
+      - completed
+
   workflow_dispatch:
     inputs:
       skip_date_check:
@@ -20,8 +26,8 @@ jobs:
       # Initial delay (reduced from 2 minutes since manual runs don't need as much delay)
       - name: Initial Delay
         run: |
-          echo "Waiting for 10 seconds before starting..."
-          sleep 10
+          echo "Waiting for 30 seconds before starting..."
+          sleep 30
 
       # Checkout repository to access posted URLs tracking
       - name: Checkout repository
@@ -82,6 +88,9 @@ jobs:
               description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='content'])" - 2>/dev/null || echo "")
             fi
 
+            # Get title
+            title=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='title'])" - 2>/dev/null || echo "")
+
             # Atom links are in attributes, not text nodes
             url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='link']/@href)" - 2>/dev/null || echo "")
 
@@ -95,6 +104,7 @@ jobs:
             description=$(echo "$response" | xmllint --xpath "string(//item[1]/description)" - 2>/dev/null || echo "")
             url=$(echo "$response" | xmllint --xpath "string(//item[1]/link)" - 2>/dev/null || echo "")
             pub_date=$(echo "$response" | xmllint --xpath "string(//item[1]/pubDate)" - 2>/dev/null || echo "")
+            title=$(echo "$response" | xmllint --xpath "string(//item[1]/title)" - 2>/dev/null || echo "")
 
             # If that didn't work, try alternative approaches
             if [[ -z "$description" ]] || [[ -z "$url" ]]; then
@@ -104,6 +114,7 @@ jobs:
               description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='description'])" - 2>/dev/null || echo "")
               url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='link'])" - 2>/dev/null || echo "")
               pub_date=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='pubDate'])" - 2>/dev/null || echo "")
+              title=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='title'])" - 2>/dev/null || echo "")
             fi
 
             # Still didn't work? Try with content:encoded for description (common in WordPress)
@@ -115,13 +126,14 @@ jobs:
 
           # Strip HTML tags if present
           description=$(echo "$description" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
+          title=$(echo "$title" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
 
           # Log parsed data
-          echo "Parsed Data - Description: $description, URL: $url, PubDate: $pub_date"
+          echo "Parsed Data - Title: $title, Description: $description, URL: $url, PubDate: $pub_date"
 
           # Handle parsing errors
-          if [[ -z "$description" ]] || [[ -z "$url" ]]; then
-            echo "Error: Failed to parse description or URL from the feed."
+          if [[ -z "$title" ]] || [[ -z "$url" ]]; then
+            echo "Error: Failed to parse title or URL from the feed."
             echo "Feed type: $FEED_TYPE"
             echo "Please check the feed structure manually."
             exit 1
@@ -159,21 +171,29 @@ jobs:
           fi
 
           # Format and export environment variables
-          description=$(echo "$description" | xargs)
-
-          echo "Raw description: $description"
+          echo "Raw title: $title"
           echo "URL: $url"
 
-          # Truncate description if needed to fit Bluesky's 300 character limit
-          # Account for URL length and spacing
-          url_length=${#url}
-          max_desc_length=$((297 - url_length))  # 297 to account for space before URL
+          # Create custom post text
+          preview="Check out my new post on Year of The Geek! ${title} ${url}"
 
-          if [[ ${#description} -gt $max_desc_length ]]; then
-            description="${description:0:$max_desc_length}..."
+          # Verify it fits in Bluesky's 300 character limit
+          if [[ ${#preview} -gt 300 ]]; then
+            echo "Warning: Post text is ${#preview} characters, exceeding Bluesky's 300 character limit."
+            echo "Truncating title..."
+
+            # Calculate how much space we have for the title
+            # "Check out my new post on Year of The Geek!\n\n" = 47 chars with newlines
+            base_text_length=49  # includes newlines
+            url_length=${#url}
+            max_title_length=$((300 - base_text_length - url_length - 3))  # -3 for "..."
+
+            if [[ ${#title} -gt $max_title_length ]]; then
+              title="${title:0:$max_title_length}..."
+            fi
+
+            preview="Check out my new post on Year of The Geek! ${title} ${url}"
           fi
-
-          preview="$description $url"
 
           # Export to both GITHUB_ENV and GITHUB_OUTPUT
           echo "preview=$preview" >> $GITHUB_ENV
