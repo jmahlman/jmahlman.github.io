@@ -1,11 +1,11 @@
 name: Post Latest Blog from RSS to Bluesky
 
 on:
-  workflow_run:
-    workflows:
-      - "Build and Deploy"
-    types:
-      - completed
+  # workflow_run:
+  #   workflows:
+  #     - "Build and Deploy"
+  #   types:
+  #     - completed
 
   workflow_dispatch:
     inputs:

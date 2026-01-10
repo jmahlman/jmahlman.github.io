@@ -1,11 +1,11 @@
-name: Post Latest Blog from RSS to Social Media
+name: Post Latest Post to Socials
 
 on:
-  # workflow_run:
-  #   workflows:
-  #     - "Build and Deploy"
-  #   types:
-  #     - completed
+  workflow_run:
+    workflows:
+      - "Build and Deploy"
+    types:
+      - completed
 
   workflow_dispatch:
     inputs:
