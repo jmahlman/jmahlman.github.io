@@ -1,28 +1,29 @@
 name: Post Latest Blog from RSS to Bluesky
 
 on:
-  # workflow_run:
-  #   workflows:
-  #     - "Build and Deploy"
-  #   types:
-  #     - completed
   workflow_dispatch:
+    inputs:
+      skip_date_check:
+        description: "Skip the date check and post anyway"
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   fetch-and-post:
     runs-on: ubuntu-latest
 
     steps:
-      # Initial two-minute delay
+      # Initial delay
       - name: Initial Delay
         run: |
-          echo "Waiting for 1 minute before starting..."
-          sleep 60
+          echo "Waiting for 30 seconds before starting..."
+          sleep 30
 
       # Install required tools
-      - name: Install xmllint and dateutils
+      - name: Install xmllint
         run: |
-          sudo apt-get update && sudo apt-get install -y libxml2-utils dateutils
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
 
       # Fetch the latest blog post from RSS feed
       - name: Fetch Latest Blog Post
@@ -51,17 +52,25 @@ jobs:
             exit 1
           fi
 
-          # Extract and compare dates
-          today=$(date -R)
-          pub_date_only=$(echo "$pub_date" | awk '{print $1", "$2" "$3" "$4}')
-          today_only=$(echo "$today" | awk '{print $1", "$2" "$3" "$4}')
+          # Extract and compare dates (skip if override is enabled)
+          if [[ "${{ inputs.skip_date_check }}" == "true" ]]; then
+            echo "Date check skipped via input parameter."
+          else
+            today=$(date -u +%Y-%m-%d)
+            pub_date_parsed=$(date -d "$pub_date" -u +%Y-%m-%d 2>/dev/null || echo "PARSE_ERROR")
 
-          echo "Today's Date: $today_only"
-          echo "Publication Date: $pub_date_only"
+            echo "Today's Date (UTC): $today"
+            echo "Publication Date (UTC): $pub_date_parsed"
 
-          if [[ "$pub_date_only" != "$today_only" ]]; then
-            echo "The blog post is not from today ($pub_date_only). Exiting."
-            exit 0
+            if [[ "$pub_date_parsed" == "PARSE_ERROR" ]]; then
+              echo "Error: Could not parse publication date. Exiting."
+              exit 1
+            fi
+
+            if [[ "$pub_date_parsed" != "$today" ]]; then
+              echo "The blog post is not from today ($pub_date_parsed). Exiting."
+              exit 0
+            fi
           fi
 
           # Format and export environment variables
@@ -71,7 +80,7 @@ jobs:
           echo "preview=$preview" >> $GITHUB_ENV
           echo "rss_url=$url" >> $GITHUB_ENV
 
-      # Post to Bluesy
+      # Post to Bluesky
       - name: Post to Bluesky
         uses: myConsciousness/bluesky-post@v5
         with:
