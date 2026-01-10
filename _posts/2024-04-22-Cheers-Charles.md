@@ -10,7 +10,7 @@ tags:
   - memoriam
 ---
 
-Today, the Mac Admins community learned that [Charles Edge](https://krypted.com) has passed away. My interactions with Charles were brief but very memorable. Charles was the moderator for a [JNUC security round-table](https://www.youtube.com/watch?v=zSu3GrMNedY) that I was invited to take part in, and was there for my two appearances on the Mac Admins Podcast. I also had the privilege of speaking with him a few times and sharing a beverage with him once.
+Today, the Mac Admins community learned that [Charles Edge](https://en.wikipedia.org/wiki/Charles_Edge_(computer_scientist)) has passed away. My interactions with Charles were brief but very memorable. Charles was the moderator for a [JNUC security round-table](https://www.youtube.com/watch?v=zSu3GrMNedY) that I was invited to take part in, and was there for my two appearances on the Mac Admins Podcast. I also had the privilege of speaking with him a few times and sharing a beverage with him once.
   
 Charles was one of the OGs in the Mac Admins world. He was friendly, funny, and always ready to help you if you asked. He shared so much of his knowledge on his website, on Slack, and in the books that he wrote.
 
