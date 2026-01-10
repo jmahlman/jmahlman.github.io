@@ -56,21 +56,44 @@ jobs:
             exit 1
           fi
 
-          # Parse the first <item> (Debugging)
-          first_item=$(echo "$response" | xmllint --xpath "//item[1]" - 2>/dev/null || echo "PARSE_ERROR")
-          echo "First Item: $first_item"
+          # Debug: Show first 500 characters of response
+          echo "RSS Feed preview:"
+          echo "$response" | head -c 500
+          echo ""
+          echo "---"
 
-          # Parse specific fields from the first <item>
-          description=$(echo "$response" | xmllint --xpath "string(//item[1]/description)" - 2>/dev/null || echo "PARSE_ERROR")
-          url=$(echo "$response" | xmllint --xpath "string(//item[1]/link)" - 2>/dev/null || echo "PARSE_ERROR")
-          pub_date=$(echo "$response" | xmllint --xpath "string(//item[1]/pubDate)" - 2>/dev/null || echo "PARSE_ERROR")
+          # Try parsing with namespace handling
+          # First, let's try without namespace prefix
+          description=$(echo "$response" | xmllint --xpath "string(//item[1]/description)" - 2>/dev/null || echo "")
+          url=$(echo "$response" | xmllint --xpath "string(//item[1]/link)" - 2>/dev/null || echo "")
+          pub_date=$(echo "$response" | xmllint --xpath "string(//item[1]/pubDate)" - 2>/dev/null || echo "")
+
+          # If that didn't work, try alternative approaches
+          if [[ -z "$description" ]] || [[ -z "$url" ]]; then
+            echo "Standard XPath failed, trying alternative parsing..."
+
+            # Try using local-name() to ignore namespaces
+            description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='description'])" - 2>/dev/null || echo "")
+            url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='link'])" - 2>/dev/null || echo "")
+            pub_date=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='pubDate'])" - 2>/dev/null || echo "")
+          fi
+
+          # Still didn't work? Try with content:encoded for description (common in WordPress)
+          if [[ -z "$description" ]]; then
+            echo "Trying content:encoded for description..."
+            description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='encoded'])" - 2>/dev/null || echo "")
+            # Strip HTML tags from content:encoded
+            description=$(echo "$description" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
+          fi
 
           # Log parsed data
           echo "Parsed Data - Description: $description, URL: $url, PubDate: $pub_date"
 
           # Handle parsing errors
-          if [[ "$description" == "PARSE_ERROR" || "$url" == "PARSE_ERROR" || "$pub_date" == "PARSE_ERROR" ]]; then
-            echo "Error: Failed to parse one or more required fields from the RSS feed. Exiting."
+          if [[ -z "$description" ]] || [[ -z "$url" ]]; then
+            echo "Error: Failed to parse description or URL from the RSS feed."
+            echo "This might be due to XML namespaces or feed structure."
+            echo "Please check the RSS feed structure manually."
             exit 1
           fi
 
@@ -86,20 +109,22 @@ jobs:
           if [[ "${{ inputs.skip_date_check }}" == "true" ]]; then
             echo "Date check skipped via input parameter."
           else
-            today=$(date -u +%Y-%m-%d)
-            pub_date_parsed=$(date -d "$pub_date" -u +%Y-%m-%d 2>/dev/null || echo "PARSE_ERROR")
+            # Only check date if we have a pub_date
+            if [[ -n "$pub_date" ]]; then
+              today=$(date -u +%Y-%m-%d)
+              pub_date_parsed=$(date -d "$pub_date" -u +%Y-%m-%d 2>/dev/null || echo "PARSE_ERROR")
 
-            echo "Today's Date (UTC): $today"
-            echo "Publication Date (UTC): $pub_date_parsed"
+              echo "Today's Date (UTC): $today"
+              echo "Publication Date (UTC): $pub_date_parsed"
 
-            if [[ "$pub_date_parsed" == "PARSE_ERROR" ]]; then
-              echo "Error: Could not parse publication date. Exiting."
-              exit 1
-            fi
-
-            if [[ "$pub_date_parsed" != "$today" ]]; then
-              echo "The blog post is not from today ($pub_date_parsed). Exiting."
-              exit 0
+              if [[ "$pub_date_parsed" == "PARSE_ERROR" ]]; then
+                echo "Warning: Could not parse publication date. Continuing anyway."
+              elif [[ "$pub_date_parsed" != "$today" ]]; then
+                echo "The blog post is not from today ($pub_date_parsed). Exiting."
+                exit 0
+              fi
+            else
+              echo "Warning: No publication date found. Skipping date check."
             fi
           fi
 
@@ -179,10 +204,11 @@ jobs:
             echo "Successfully committed and pushed tracking file"
           fi
 
-      # Debug step: Print environment variables (optional, remove after debugging)
+      # Debug step: Print environment variables
       - name: Debug Environment Variables
         if: always()
         run: |
-          echo "Preview Text: ${{ env.preview }}"
-          echo "RSS URL: ${{ env.rss_url }}"
+          echo "Preview Text: ${{ steps.fetch_post.outputs.preview }}"
+          echo "RSS URL: ${{ steps.fetch_post.outputs.rss_url }}"
           echo "RSS Feed URL: $RSS_FEED_URL"
+          echo "Fetch step conclusion: ${{ steps.fetch_post.conclusion }}"
