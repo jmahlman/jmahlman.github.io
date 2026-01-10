@@ -62,38 +62,68 @@ jobs:
           echo ""
           echo "---"
 
-          # Try parsing with namespace handling
-          # First, let's try without namespace prefix
-          description=$(echo "$response" | xmllint --xpath "string(//item[1]/description)" - 2>/dev/null || echo "")
-          url=$(echo "$response" | xmllint --xpath "string(//item[1]/link)" - 2>/dev/null || echo "")
-          pub_date=$(echo "$response" | xmllint --xpath "string(//item[1]/pubDate)" - 2>/dev/null || echo "")
-
-          # If that didn't work, try alternative approaches
-          if [[ -z "$description" ]] || [[ -z "$url" ]]; then
-            echo "Standard XPath failed, trying alternative parsing..."
-
-            # Try using local-name() to ignore namespaces
-            description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='description'])" - 2>/dev/null || echo "")
-            url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='link'])" - 2>/dev/null || echo "")
-            pub_date=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='pubDate'])" - 2>/dev/null || echo "")
+          # Detect feed type (Atom vs RSS)
+          if echo "$response" | grep -q '<feed xmlns="http://www.w3.org/2005/Atom"'; then
+            echo "Detected Atom feed format"
+            FEED_TYPE="atom"
+          else
+            echo "Detected RSS feed format"
+            FEED_TYPE="rss"
           fi
 
-          # Still didn't work? Try with content:encoded for description (common in WordPress)
-          if [[ -z "$description" ]]; then
-            echo "Trying content:encoded for description..."
-            description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='encoded'])" - 2>/dev/null || echo "")
-            # Strip HTML tags from content:encoded
-            description=$(echo "$description" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
+          # Parse based on feed type
+          if [[ "$FEED_TYPE" == "atom" ]]; then
+            # Atom feed parsing
+            # Atom uses <entry> instead of <item>, <summary> or <content> instead of <description>
+            description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='summary'])" - 2>/dev/null || echo "")
+
+            # If no summary, try content
+            if [[ -z "$description" ]]; then
+              description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='content'])" - 2>/dev/null || echo "")
+            fi
+
+            # Atom links are in attributes, not text nodes
+            url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='link']/@href)" - 2>/dev/null || echo "")
+
+            # Atom uses <updated> or <published> instead of <pubDate>
+            pub_date=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='published'])" - 2>/dev/null || echo "")
+            if [[ -z "$pub_date" ]]; then
+              pub_date=$(echo "$response" | xmllint --xpath "string(//*[local-name()='entry'][1]/*[local-name()='updated'])" - 2>/dev/null || echo "")
+            fi
+          else
+            # RSS feed parsing
+            description=$(echo "$response" | xmllint --xpath "string(//item[1]/description)" - 2>/dev/null || echo "")
+            url=$(echo "$response" | xmllint --xpath "string(//item[1]/link)" - 2>/dev/null || echo "")
+            pub_date=$(echo "$response" | xmllint --xpath "string(//item[1]/pubDate)" - 2>/dev/null || echo "")
+
+            # If that didn't work, try alternative approaches
+            if [[ -z "$description" ]] || [[ -z "$url" ]]; then
+              echo "Standard XPath failed, trying alternative parsing..."
+
+              # Try using local-name() to ignore namespaces
+              description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='description'])" - 2>/dev/null || echo "")
+              url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='link'])" - 2>/dev/null || echo "")
+              pub_date=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='pubDate'])" - 2>/dev/null || echo "")
+            fi
+
+            # Still didn't work? Try with content:encoded for description (common in WordPress)
+            if [[ -z "$description" ]]; then
+              echo "Trying content:encoded for description..."
+              description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='encoded'])" - 2>/dev/null || echo "")
+            fi
           fi
+
+          # Strip HTML tags if present
+          description=$(echo "$description" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
 
           # Log parsed data
           echo "Parsed Data - Description: $description, URL: $url, PubDate: $pub_date"
 
           # Handle parsing errors
           if [[ -z "$description" ]] || [[ -z "$url" ]]; then
-            echo "Error: Failed to parse description or URL from the RSS feed."
-            echo "This might be due to XML namespaces or feed structure."
-            echo "Please check the RSS feed structure manually."
+            echo "Error: Failed to parse description or URL from the feed."
+            echo "Feed type: $FEED_TYPE"
+            echo "Please check the feed structure manually."
             exit 1
           fi
 
