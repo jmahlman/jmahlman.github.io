@@ -23,11 +23,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Initial delay (reduced from 2 minutes since manual runs don't need as much delay)
+      # Initial delay
       - name: Initial Delay
-        run: |
-          echo "Waiting for 30 seconds before starting..."
-          sleep 30
+        run: sleep 30
 
       # Checkout repository to access posted URLs tracking
       - name: Checkout repository
@@ -51,8 +49,6 @@ jobs:
       - name: Fetch Latest Blog Post
         id: fetch_post
         run: |
-          echo "Fetching RSS feed from: $RSS_FEED_URL"
-
           # Fetch RSS feed
           response=$(curl -s "$RSS_FEED_URL")
 
@@ -62,18 +58,10 @@ jobs:
             exit 1
           fi
 
-          # Debug: Show first 500 characters of response
-          echo "RSS Feed preview:"
-          echo "$response" | head -c 500
-          echo ""
-          echo "---"
-
           # Detect feed type (Atom vs RSS)
           if echo "$response" | grep -q '<feed xmlns="http://www.w3.org/2005/Atom"'; then
-            echo "Detected Atom feed format"
             FEED_TYPE="atom"
           else
-            echo "Detected RSS feed format"
             FEED_TYPE="rss"
           fi
 
@@ -107,9 +95,7 @@ jobs:
             title=$(echo "$response" | xmllint --xpath "string(//item[1]/title)" - 2>/dev/null || echo "")
 
             # If that didn't work, try alternative approaches
-            if [[ -z "$description" ]] || [[ -z "$url" ]]; then
-              echo "Standard XPath failed, trying alternative parsing..."
-
+            if [[ -z "$title" ]] || [[ -z "$url" ]]; then
               # Try using local-name() to ignore namespaces
               description=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='description'])" - 2>/dev/null || echo "")
               url=$(echo "$response" | xmllint --xpath "string(//*[local-name()='item'][1]/*[local-name()='link'])" - 2>/dev/null || echo "")
@@ -149,44 +135,34 @@ jobs:
 
           # Extract and compare dates (skip if override is enabled)
           if [[ "${{ inputs.skip_date_check }}" == "true" ]]; then
-            echo "Date check skipped via input parameter."
+            echo "Skipping date check"
           else
             # Only check date if we have a pub_date
             if [[ -n "$pub_date" ]]; then
               today=$(date -u +%Y-%m-%d)
               pub_date_parsed=$(date -d "$pub_date" -u +%Y-%m-%d 2>/dev/null || echo "PARSE_ERROR")
 
-              echo "Today's Date (UTC): $today"
-              echo "Publication Date (UTC): $pub_date_parsed"
-
               if [[ "$pub_date_parsed" == "PARSE_ERROR" ]]; then
                 echo "Warning: Could not parse publication date. Continuing anyway."
               elif [[ "$pub_date_parsed" != "$today" ]]; then
-                echo "The blog post is not from today ($pub_date_parsed). Exiting."
+                echo "Post is not from today ($pub_date_parsed). Exiting."
                 exit 0
               fi
-            else
-              echo "Warning: No publication date found. Skipping date check."
             fi
           fi
 
           # Format and export environment variables
-          echo "Raw title: $title"
-          echo "URL: $url"
-
           # Create custom post text
           preview="Check out my new post on Year of The Geek: ${title} ${url}"
 
           # Verify it fits in Bluesky's 300 character limit
           if [[ ${#preview} -gt 300 ]]; then
-            echo "Warning: Post text is ${#preview} characters, exceeding Bluesky's 300 character limit."
-            echo "Truncating title..."
+            echo "Post exceeds 300 characters, truncating title..."
 
             # Calculate how much space we have for the title
-            # "Check out my new post on Year of The Geek:  " = 47 chars (with spaces)
             base_text_length=47
             url_length=${#url}
-            max_title_length=$((300 - base_text_length - url_length - 3))  # -3 for "..."
+            max_title_length=$((300 - base_text_length - url_length - 3))
 
             if [[ ${#title} -gt $max_title_length ]]; then
               title="${title:0:$max_title_length}..."
@@ -195,20 +171,13 @@ jobs:
             preview="Check out my new post on Year of The Geek: ${title} ${url}"
           fi
 
-          # Export to both GITHUB_ENV and GITHUB_OUTPUT
+          # Export variables
           echo "preview=$preview" >> $GITHUB_ENV
           echo "rss_url=$url" >> $GITHUB_ENV
           echo "preview=$preview" >> $GITHUB_OUTPUT
           echo "rss_url=$url" >> $GITHUB_OUTPUT
 
-          echo "Final preview text: $preview"
-          echo "Final preview text length: ${#preview}"
-
-          # Verify exports worked
-          if [[ -z "$preview" ]] || [[ -z "$url" ]]; then
-            echo "Error: Failed to set preview or URL variables. Exiting."
-            exit 1
-          fi
+          echo "Ready to post: $title"
 
       # Post to Bluesky
       - name: Post to Bluesky
@@ -234,9 +203,6 @@ jobs:
             mv "$POSTED_FILE.tmp" "$POSTED_FILE"
           fi
 
-          echo "Recorded URL to tracking file"
-          cat "$POSTED_FILE"
-
       # Commit the updated tracking file
       - name: Commit Posted URLs
         if: success() && steps.fetch_post.outputs.rss_url != ''
@@ -246,12 +212,9 @@ jobs:
           git add .github/bluesky-posted-urls.txt
 
           # Check if there are changes to commit
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Track posted URL: ${{ steps.fetch_post.outputs.rss_url }}"
+          if ! git diff --staged --quiet; then
+            git commit -m "Track posted URL"
             git push
-            echo "Successfully committed and pushed tracking file"
           fi
 
       # Debug step: Print environment variables
