@@ -137,7 +137,7 @@ jobs:
           fi
 
           # Check if URL has already been posted
-          POSTED_FILE=".github/bluesky-posted-urls.txt"
+          POSTED_FILE=".github/socials-posted-urls.txt"
           if [[ -f "$POSTED_FILE" ]] && grep -Fxq "$url" "$POSTED_FILE"; then
             echo "This URL has already been posted to social media: $url"
             echo "Exiting to prevent duplicate post."
@@ -265,7 +265,7 @@ jobs:
       - name: Record Posted URL
         if: success() && steps.fetch_post.outputs.rss_url != ''
         run: |
-          POSTED_FILE=".github/bluesky-posted-urls.txt"
+          POSTED_FILE=".github/socials-posted-urls.txt"
           mkdir -p .github
           echo "${{ steps.fetch_post.outputs.rss_url }}" >> "$POSTED_FILE"
 
@@ -281,7 +281,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .github/bluesky-posted-urls.txt
+          git add .github/socials-posted-urls.txt
 
           # Check if there are changes to commit
           if ! git diff --staged --quiet; then
