@@ -125,8 +125,8 @@ jobs:
           fi
 
           # Strip HTML tags if present
-          description=$(echo "$description" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
-          title=$(echo "$title" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | xargs)
+          description=$(echo "$description" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | tr -s ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          title=$(echo "$title" | sed 's/<[^>]*>//g' | sed 's/&[^;]*;//g' | tr -s ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
           # Log parsed data
           echo "Parsed Data - Title: $title, Description: $description, URL: $url, PubDate: $pub_date"
@@ -175,7 +175,7 @@ jobs:
           echo "URL: $url"
 
           # Create custom post text
-          preview="Check out my new post on Year of The Geek! ${title} ${url}"
+          preview="Check out my new post on Year of The Geek: ${title} ${url}"
 
           # Verify it fits in Bluesky's 300 character limit
           if [[ ${#preview} -gt 300 ]]; then
@@ -183,8 +183,8 @@ jobs:
             echo "Truncating title..."
 
             # Calculate how much space we have for the title
-            # "Check out my new post on Year of The Geek!\n\n" = 47 chars with newlines
-            base_text_length=49  # includes newlines
+            # "Check out my new post on Year of The Geek:  " = 47 chars (with spaces)
+            base_text_length=47
             url_length=${#url}
             max_title_length=$((300 - base_text_length - url_length - 3))  # -3 for "..."
 
@@ -192,7 +192,7 @@ jobs:
               title="${title:0:$max_title_length}..."
             fi
 
-            preview="Check out my new post on Year of The Geek! ${title} ${url}"
+            preview="Check out my new post on Year of The Geek: ${title} ${url}"
           fi
 
           # Export to both GITHUB_ENV and GITHUB_OUTPUT
