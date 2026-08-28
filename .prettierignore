@@ -1,0 +1,8 @@
+# This file contains a Liquid tag inside the `@import` rule. Prettier parses it
+# as plain SCSS and reflows the tag into `== ' production\n  '`, which never
+# matches, so production silently drops the bootstrap bundle.
+assets/css/jekyll-theme-chirpy.scss
+
+# Generated / vendored
+_site/
+assets/lib/

@@ -1,0 +1,122 @@
+---
+---
+
+@use 'sass:list';
+
+@import 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+/* ===========================================================================
+ * Custom prompts (callouts)
+ * ---------------------------------------------------------------------------
+ * Chirpy styles any blockquote whose class starts with `prompt-` (padding,
+ * rounded corners, icon slot), so mixing an icon and a color in a post is
+ * enough to get a full callout:
+ *
+ *   > Don't run this on a production Jamf server.
+ *   {: .prompt-icon:bug .prompt-color:red }
+ *
+ * Either half works on its own -- an icon with no color falls back to the
+ * theme's info blue, a color with no icon keeps the default info glyph.
+ *
+ * The background is mixed from the accent color against the page background,
+ * so every combination adapts to light and dark mode automatically.
+ *
+ * ---- Adding a new named icon ----
+ * Look the icon up at https://fontawesome.com/search?ic=free, copy its unicode
+ * value, and add a line to $prompt-icons below:
+ *
+ *   'myname': ('\f188', 'solid'),
+ *
+ * The second value is the Font Awesome style: 'solid', 'regular' or 'brands'.
+ * It must match what the icon page lists as free, or the glyph renders blank.
+ *
+ * ---- One-offs without touching this file ----
+ * Any value can be passed inline instead of using a named class:
+ *
+ *   > A one-off callout.
+ *   {: .prompt-custom style="--prompt-accent:#ff6b00; --prompt-glyph:'\f0fc'" }
+ *
+ * =========================================================================== */
+
+$prompt-icons: (
+  'tldr': ('\f050', 'solid'),
+  'brain': ('\f5dc', 'solid'),
+  'bug': ('\f188', 'solid'),
+  'note': ('\f249', 'regular'),
+  'question': ('\f059', 'regular'),
+  'star': ('\f005', 'solid'),
+  'fire': ('\f06d', 'solid'),
+  'beer': ('\f0fc', 'solid'),
+  'book': ('\f02d', 'solid'),
+  'code': ('\f121', 'solid'),
+  'terminal': ('\f120', 'solid'),
+  'lock': ('\f023', 'solid'),
+  'clock': ('\f017', 'regular'),
+  'check': ('\f058', 'regular'),
+  'no': ('\f057', 'regular'),
+  'rocket': ('\f135', 'solid'),
+  'wrench': ('\f0ad', 'solid'),
+  'link': ('\f0c1', 'solid'),
+  'heart': ('\f004', 'regular'),
+  'eye': ('\f06e', 'solid'),
+  'bolt': ('\f0e7', 'solid'),
+  'quote': ('\f10d', 'solid'),
+  'apple': ('\f179', 'brands')
+);
+
+$prompt-colors: (
+  'red': #e2483d,
+  'orange': #f0821e,
+  'yellow': #d9a406,
+  'green': #2ea043,
+  'teal': #14a2a2,
+  'blue': #2b7cd3,
+  'purple': #8b5cf6,
+  'pink': #e4568f,
+  'gray': #8b8b93,
+);
+
+blockquote {
+  &[class*='prompt-icon:'],
+  &[class*='prompt-color:'],
+  &.prompt-custom {
+    /* defaults, overridden by the named classes or an inline style */
+    --prompt-accent: var(--prompt-info-icon-color);
+    --prompt-glyph: '\f05a';
+    --prompt-glyph-font: var(--fa-font-solid);
+    --prompt-tint: 14%;
+
+    background-color: color-mix(
+      in srgb,
+      var(--prompt-accent) var(--prompt-tint),
+      var(--main-bg)
+    );
+
+    &::before {
+      content: var(--prompt-glyph);
+      color: var(--prompt-accent);
+      font: var(--prompt-glyph-font);
+    }
+  }
+
+  /* `blockquote.foo` keeps these at the same specificity as the block above,
+     so source order decides and these win. */
+  @each $name, $spec in $prompt-icons {
+    &.prompt-icon\:#{$name} {
+      --prompt-glyph: '#{list.nth($spec, 1)}';
+      --prompt-glyph-font: var(--fa-font-#{list.nth($spec, 2)});
+    }
+  }
+
+  @each $name, $color in $prompt-colors {
+    &.prompt-color\:#{$name} {
+      --prompt-accent: #{$color};
+    }
+  }
+}

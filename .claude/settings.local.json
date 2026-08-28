@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gem env *)",
+      "Bash(git checkout *)",
+      "Read(//private/tmp/**)",
+      "Bash(/opt/homebrew/opt/ruby/bin/ruby -e 'gem \"kramdown\"; require \"kramdown\"; puts Kramdown::VERSION')",
+      "Bash(ruby -I/opt/homebrew/lib/ruby/gems/3.3.0/gems/kramdown-2.5.1/lib kt.rb)",
+      "Bash(grep -o 'fa-bug[^,{]*{[^}]*}' /Users/johnmahlman/jmahlman.github.io/assets/lib/fontawesome-free/css/all.min.css)"
+    ]
+  }
+}
