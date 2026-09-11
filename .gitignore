@@ -28,6 +28,7 @@ package-lock.json
 # Misc
 _sass/vendors
 assets/js/dist
+_drafts
 
 # Hidden system files
 *~
