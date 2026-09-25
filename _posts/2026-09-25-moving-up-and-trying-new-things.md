@@ -1,6 +1,6 @@
 ---
 title: Moving Up and Trying New Things
-date: 2026-09-25T14:00-05:00
+date: 2026-09-25T13:00-05:00
 author: john
 comments: true
 image: assets/uploads/WB-icon.png
